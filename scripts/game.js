@@ -53,6 +53,7 @@ window.addEventListener('load', function() {
             }
         } 
         //TODO can add diagonal movement
+        //TODO BUG if we dont move for some time, movements are getting bigger when we continue to move
     };
 
     function gameLoop() {
