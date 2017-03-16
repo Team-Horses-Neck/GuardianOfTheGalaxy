@@ -19,43 +19,41 @@ window.addEventListener('load', function() {
     // Define game objects (player, enemies...)
     var guardian = new Player(sprites.guardian, 375, 550);
         
-
-    function moveGuardianRight (x, y) {
+    const GuardianMovements = {
+        moveGuardianRight: function () {
             guardian.x += 0.05;
             guardian.y += 0;
 
             if (guardian.x >= 750) {
                 guardian.x = 750;
             }
-        }
-
-    function moveGuardianLeft (x, y) {
+        },
+        moveGuardianLeft: function () {
             guardian.x -= 0.05;
             guardian.y += 0;
 
             if (guardian.x <= 0) {
                 guardian.x = 0;
             }
-        }
-
-    function moveGuardianUp (x, y) {
+        },
+        moveGuardianUp: function () {
             guardian.x += 0;
             guardian.y -= 0.05;
 
             if (guardian.y <= 0) {
                 guardian.y = 0;
             }
-        }
-
-    function moveGuardianDown (x, y) {
+        },
+        moveGuardianDown: function () {
             guardian.x += 0;
             guardian.y += 0.05;
             
             if (guardian.y >= 550) {
                 guardian.y = 550;
             }
-        }            
-    //TODO can add diagonal movement
+        } 
+        //TODO can add diagonal movement
+    };
 
     function gameLoop() {
         ctx.clearAll();
@@ -63,25 +61,25 @@ window.addEventListener('load', function() {
 
         canvas.addEventListener('keydown', function (e) {
             if (e.keyCode === 37) { 
-                moveGuardianLeft();
+               GuardianMovements.moveGuardianLeft();
             }
         }, false);
 
         canvas.addEventListener('keydown', function (e) {
             if (e.keyCode === 38) { 
-                moveGuardianUp();  
+                GuardianMovements.moveGuardianUp();  
             }
         }, false);
 
         canvas.addEventListener('keydown', function (e) {
             if (e.keyCode === 39) { 
-                moveGuardianRight();
+                GuardianMovements.moveGuardianRight();
             }
         }, false);
 
         canvas.addEventListener('keydown', function (e) {
             if (e.keyCode === 40) { 
-                moveGuardianDown();
+                GuardianMovements.moveGuardianDown();
             }
         }, false);
 
