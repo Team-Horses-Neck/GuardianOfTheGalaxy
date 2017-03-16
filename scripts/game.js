@@ -1,5 +1,5 @@
 function loadSprite(url) {
-    var img = new Image();
+    const img = new Image();
     img.src = url;
     return img;
 }
@@ -21,15 +21,17 @@ window.addEventListener('load', function() {
     const guardian = new Player(sprites.guardian, canvas);
 
     function gameLoop() {
+        // Update
         guardian.update(keyboard);
 
+        // Draw
         ctx.clearAll();
         guardian.draw(ctx);
-
         requestAnimationFrame(gameLoop);
     }
     gameLoop();
 
+    // Keyboard events
     window.addEventListener('keydown', (e) => keyboard.onKeydown(e), false);
     window.addEventListener('keyup', (e) => keyboard.onKeyup(e), false);
 });
