@@ -8,5 +8,5 @@ function Player(sprite, x, y) {
 			this._sprite, 
 			this.x, this.y, 
 			this._sprite.width, this._sprite.height);
-	}
+	};
 }
