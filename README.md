@@ -19,4 +19,6 @@
 * Save high-scores in local storage (maybe on a server)
 
 For testing purpose:
+!! WHEN ON RAWGIT - type ctrl + F5 to get latest commits to apply
 https://rawgit.com/Team-Horses-Neck/GuardianOfTheGalaxy/master/index.html
+
