@@ -1,25 +1,27 @@
-class Space {
-    constructor(sprite, canvas){
-        this._canvas = canvas;
-		this._sprite = sprite;
-		this._speed = 1;
-		this.x = 0;
-		this.y = 0;
-    }
-
-    get width() {
-		return this._sprite.width;
-	}
-	get height() {
-		return this._sprite.height;
+class SpaceBg {
+	constructor(ctx, staticBg, movingBg) {
+		this._x = 0;
+		this._y = 0;
+		this._ctx = ctx;
+		this._staticBg = staticBg;
+		this._movingBg = movingBg;
+		this._staticBgPattern = ctx.createPattern(this._staticBg, 'repeat');
 	}
 
-    draw(ctx){
-        ctx.drawImage(
-			this._sprite,
-			this.x, this.y,
-			this._sprite.width, this._sprite.height);
-    }
+	update() {
+		this._y += SPACE_SCROLL_SPEED;
+		if (this._y >= this._ctx.canvas.height) {
+			this._y = 0;
+		}
+	}
 
-    //TODO animate moving space
+	draw() {
+		// Distant stars stay in place
+		this._ctx.fillStyle = this._staticBgPattern;
+		this._ctx.fillRect(0, 0, this._ctx.canvas.width, this._ctx.canvas.height);
+
+		// Closer stars move
+		this._ctx.drawImage(this._movingBg, this._x, this._y);
+		this._ctx.drawImage(this._movingBg, this._x, this._y - this._ctx.canvas.height);
+	}
 }

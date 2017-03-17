@@ -1,11 +1,11 @@
 class Player {
-	constructor(sprite, canvas) {
-		this._canvas = canvas;
+	constructor(ctx, sprite) {
+		this._ctx = ctx;
 		this._sprite = sprite;
 		this._speed = PLAYER_SPEED;
 
-		this.x = this._canvas.width / 2 - this.width / 2;
-		this.y = this._canvas.height - this._sprite.height;
+		this.x = this._ctx.canvas.width / 2 - this.width / 2;
+		this.y = this._ctx.canvas.height - this._sprite.height;
 		this.bulletsOnScreen = [];
 
 		// Weapon properties
@@ -76,8 +76,8 @@ class Player {
 		// colide with canvas edges
 		if (this.x < 0)
 			this.x = 0;
-		else if (this.x + this.width > this._canvas.width)
-			this.x = this._canvas.width - this.width;
+		else if (this.x + this.width > this._ctx.canvas.width)
+			this.x = this._ctx.canvas.width - this.width;
 
 		// Shoot behaviour
 		if (keyboard.isDown(keyboard.SPACE)) {
@@ -98,7 +98,8 @@ class Player {
 		}
 	}
 
-	draw(ctx) {
+	draw() {
+		const ctx = this._ctx;
 		ctx.drawImage(
 			this._sprite,
 			this.x, this.y,

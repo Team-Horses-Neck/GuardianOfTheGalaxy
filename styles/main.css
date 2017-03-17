@@ -1,30 +1,8 @@
-body{
+html, body {
 	margin: 0;
 	padding: 0;
+	text-align: center;
 }
-
-#wrapper {
-	margin: 0 auto;
-	padding: 0;
-	position: relative;
-	width: 800px;
-	height: 600px;
-	border: 1px solid black;
-}
-
-#game-canvas {
-	position: absolute;
-	/*border: 1px solid black;*/
-	top: 0;
-	left: 0;
-	z-index: 2;
-}
-
-#space-canvas {
-	position: absolute;
-    background: transparent;
-	top: 0;
-	left: 0;
-	z-index: 1;
-    /*border: 1px solid black;*/
+canvas {
+	background: #000;
 }

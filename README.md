@@ -4,9 +4,9 @@
 * Control player and colide with canvas edges
 * Different shooting types
   * Lasers (just visual for now)
+* Animated background (space-like)
 
 ## TODO Features
-* Animated background (space-like)
 * Collision detection
 * Enemy movements
 * Different enemy types
