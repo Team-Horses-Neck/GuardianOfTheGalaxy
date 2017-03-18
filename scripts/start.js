@@ -7,9 +7,28 @@ function loadSprite(url) {
 const sprites = {
     guardian: loadSprite('./images/guardian-small.png'),
     spaceStatic: loadSprite('./images/space-static-tiling.jpg'),
+
+    spaceMoving: loadSprite('./images/space-moving.png'),
+
+    wall: loadSprite('./images/wall/wall.png'),
+    wallDown: loadSprite('./images/wall/wall-down.png'),
+    wallHightLeft: loadSprite('./images/wall/wall-height-left.png'),
+    wallHightRight: loadSprite('./images/wall/wall-height-right.png'),
+    wallMiddle: loadSprite('./images/wall/wall-middle.png'),
+    wallHit: loadSprite('./images/wall/wall-hit.png'),
+    wallDownHit: loadSprite('./images/wall/wall-down-hit.png'),
+    wallHightLeftHit: loadSprite('./images/wall/wall-height-left-hit.png'),
+    wallHightRightHit: loadSprite('./images/wall/wall-height-right-hit.png'),
+    wallMiddleHit: loadSprite('./images/wall/wall-middle-hit.png'),
+
     enemy: loadSprite('./images/enemies/enemy-small.png'),
+<<<<<<< HEAD
     spaceMoving: loadSprite('./images/space-moving.png'),
     shell: loadSprite('./images/shell-small.png')
+=======
+    spaceMoving: loadSprite('./images/space-moving.png')
+
+>>>>>>> 31d09a46cb4361684042d6895d46983c5b9e900c
 };
 
 window.addEventListener('load', function() {
@@ -25,7 +44,7 @@ window.addEventListener('load', function() {
     // Keyboard events
     window.addEventListener('keydown', (e) => engine._userInput.onKeydown(e), false);
     window.addEventListener('keyup', (e) => engine._userInput.onKeyup(e), false);
-    window.addEventListener('enemyFireShell', (e)=>engine.launchNewShell(e));
+    window.addEventListener('enemyFireShell', (e) => engine.launchNewShell(e));
 
     engine.gameLoop(engine, ctx);
 });

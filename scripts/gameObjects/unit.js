@@ -6,6 +6,8 @@ class Unit {
 
         this._x = x;
         this._y = y;
+
+        this._radius = (sprite.width + sprite.height) / 4;
     }
 
     get x() {
@@ -35,8 +37,13 @@ class Unit {
     get width(){
         return this._ctx.canvas.width;
     }
+    
     get height(){
         return this._ctx.canvas.height;
+    }
+    // used for collision detection
+    get radius(){
+        return this._radius;
     }
 
     move() {
