@@ -16,7 +16,7 @@ class Enemy extends Unit {
     move() {
         this.x += this._speedx;
         this.y += this._speedy;
-        const outSide = this.x < 0 || this.x > this._ctx.canvas.width;
+        const outSide = this.x < 0 || (this.x + this._sprite.width) > this._ctx.canvas.width;
         if (outSide) {
             this._speedx = - this._speedx;
             this.move();  //move back from outside

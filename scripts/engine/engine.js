@@ -15,7 +15,7 @@ class Engine {
     resetGame() { //sets the initial field
 
         //For now - only one enemy
-        const enemy = new Enemy(20, 20, this._ctx, this._sprites.enemy, 0.5);
+        const enemy = new Enemy(20, 20, this._ctx, this._sprites.enemy, ENEMY_SPEED);
         this._gameObjectsArray.push(enemy);
     }
 
