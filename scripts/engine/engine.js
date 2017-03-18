@@ -15,12 +15,14 @@ class Engine {
 
         //For now - only one enemy
         const enemy = new Enemy(20, 20, this._ctx, this._sprites.enemy, 0.5);
+        //const shell = new Shell(200, 20, this._ctx, this._sprites.shell, 1, 1);
+        //this._gameObjectsArray.push(shell);
         this._gameObjectsArray.push(enemy);
     }
 
     launchNewShell(e) {
 
-        const newShell = new Shell(e.enemyX, e.enemyY, this._ctx, this._sprites.shell, 1, 1);
+        const newShell = new Shell(e.detail.enemyX, e.detail.enemyY, this._ctx, this._sprites.shell, 1, 1);
         this._gameObjectsArray.push(newShell);
     }
 

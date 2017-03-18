@@ -8,7 +8,8 @@ const sprites = {
     guardian: loadSprite('./images/guardian-small.png'),
     spaceStatic: loadSprite('./images/space-static-tiling.jpg'),
     enemy: loadSprite('./images/enemies/enemy-small.png'),
-    spaceMoving: loadSprite('./images/space-moving.png')
+    spaceMoving: loadSprite('./images/space-moving.png'),
+    shell: loadSprite('./images/shell-small.png')
 };
 
 window.addEventListener('load', function() {
