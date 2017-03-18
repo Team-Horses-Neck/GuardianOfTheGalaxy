@@ -7,8 +7,9 @@ function loadSprite(url) {
 const sprites = {
     guardian: loadSprite('./images/guardian-small.png'),
     spaceStatic: loadSprite('./images/space-static-tiling.jpg'),
+
     spaceMoving: loadSprite('./images/space-moving.png'),
-    
+
     wall: loadSprite('./images/wall/wall.png'),
     wallDown: loadSprite('./images/wall/wall-down.png'),
     wallHightLeft: loadSprite('./images/wall/wall-height-left.png'),
@@ -18,12 +19,17 @@ const sprites = {
     wallDownHit: loadSprite('./images/wall/wall-down-hit.png'),
     wallHightLeftHit: loadSprite('./images/wall/wall-height-left-hit.png'),
     wallHightRightHit: loadSprite('./images/wall/wall-height-right-hit.png'),
-    wallMiddleHit: loadSprite('./images/wall/wall-middle-hit.png')
+    wallMiddleHit: loadSprite('./images/wall/wall-middle-hit.png'),
+
+    enemy: loadSprite('./images/enemies/enemy-small.png'),
+    spaceMoving: loadSprite('./images/space-moving.png')
+
 };
 
 window.addEventListener('load', function() {
     const canvas = document.getElementById('game-canvas');
     const ctx = canvas.getContext('2d');
+
     ctx.clearAll = function() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
@@ -33,6 +39,7 @@ window.addEventListener('load', function() {
     // Keyboard events
     window.addEventListener('keydown', (e) => engine._userInput.onKeydown(e), false);
     window.addEventListener('keyup', (e) => engine._userInput.onKeyup(e), false);
+    window.addEventListener('enemyFireShell', (e) => engine.launchNewShell(e));
 
     engine.gameLoop(engine, ctx);
 });

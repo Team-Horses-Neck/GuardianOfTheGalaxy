@@ -64,7 +64,7 @@ class Player {
         ctx.closePath();
     }
 
-    update(keyboard) {
+    updateGuardian(keyboard) {
         // update position
         if (keyboard.isDown(keyboard.left)) {
             this.x -= this._speed;
@@ -96,6 +96,14 @@ class Player {
                 this._lasersOn = false;
             }
         }
+    }
+
+    move() {
+
+    }
+
+    update() {
+
     }
 
     draw() {

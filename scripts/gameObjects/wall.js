@@ -19,6 +19,12 @@ class Wall {
     set y(val) {
         this._y = val;
     }
+    move() {
+
+    }
+    update(){
+      
+    }
     draw() {
         const ctx = this._ctx;
         ctx.drawImage(
