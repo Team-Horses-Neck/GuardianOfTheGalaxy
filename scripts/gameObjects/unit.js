@@ -32,6 +32,13 @@ class Unit {
         this._speed = value;
     }
 
+    get width(){
+        return this._ctx.canvas.width;
+    }
+    get height(){
+        return this._ctx.canvas.height;
+    }
+
     move() {
 
     }
