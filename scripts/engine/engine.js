@@ -15,26 +15,23 @@ class Engine {
     resetGame() { //sets the initial field
 
         //For now - only one enemy
-<<<<<<< HEAD
         const enemy = new Enemy(20, 20, this._ctx, this._sprites.enemy, 0.5);
         //const shell = new Shell(200, 20, this._ctx, this._sprites.shell, 1, 1);
         //this._gameObjectsArray.push(shell);
         this._gameObjectsArray.push(enemy);
     }
 
-    launchNewShell(e) {
+    // launchNewShell(e) {
 
-        const newShell = new Shell(e.detail.enemyX, e.detail.enemyY, this._ctx, this._sprites.shell, 1, 1);
-        this._gameObjectsArray.push(newShell);
-=======
-        const enemy = new Enemy(20, 20, this._ctx, this._sprites.enemy, ENEMY_SPEED);
-        this._gameObjectsArray.push(enemy);
-    }
+    //     const newShell = new Shell(e.detail.enemyX, e.detail.enemyY, this._ctx, this._sprites.shell, 1, 1);
+    //     this._gameObjectsArray.push(newShell);
+    //     const enemy = new Enemy(20, 20, this._ctx, this._sprites.enemy, ENEMY_SPEED);
+    //     this._gameObjectsArray.push(enemy);
+    // }
 
     launchNewProjectile(e) {
-        const newProjectile = new Projectile(e.enemyX, e.enemyY, this._ctx, this._sprites.projectile, 1, 1);
+        const newProjectile = new Projectile(e.detail.enemyX, e.detail.enemyY, this._ctx, this._sprites.projectile, 1, 1);
         this._gameObjectsArray.push(newProjectile);
->>>>>>> 31d09a46cb4361684042d6895d46983c5b9e900c
     }
 
     gameLoop(engine, ctx) {
