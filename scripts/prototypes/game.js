@@ -11,10 +11,10 @@ const sprites = {
 };
 
 // Start the game when sprites have loaded
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     const canvas = document.getElementById('game-canvas');
     const ctx = canvas.getContext('2d');
-    ctx.clearAll = function() {
+    ctx.clearAll = function () {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
 
@@ -22,7 +22,7 @@ window.addEventListener('load', function() {
     const keyboard = new Keyboard();
     const guardian = new Player(ctx, sprites.guardian);
     const space = new SpaceBg(ctx, sprites.spaceStatic, sprites.spaceMoving);
-    
+
     function gameLoop() {
         // Update
         guardian.update(keyboard);
@@ -32,7 +32,7 @@ window.addEventListener('load', function() {
         ctx.clearAll();
         space.draw();
         guardian.draw();
-        
+
         requestAnimationFrame(gameLoop);
     }
     gameLoop();
