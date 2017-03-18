@@ -56,4 +56,18 @@ class Engine {
         }
     }
 
+    collisionDetect(object1, object2){
+        //radiuses formula from workshops jumping pikachu
+
+        var radius1 = object1.radius,
+            radius2 = object2.radius,
+            x1 = object1.x + (object1.width / 2),
+            y1 = object1.y + (object1.height / 2),
+            x2 = object2.x + (object2.width / 2),
+            y2 = object2.y + (object2.height / 2),
+            distance = Math.sqrt(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)));
+
+        return dispatchEvent <= (radius1 + radius2);
+    }
+
 }
