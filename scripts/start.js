@@ -7,7 +7,18 @@ function loadSprite(url) {
 const sprites = {
     guardian: loadSprite('./images/guardian-small.png'),
     spaceStatic: loadSprite('./images/space-static-tiling.jpg'),
-    spaceMoving: loadSprite('./images/space-moving.png')
+    spaceMoving: loadSprite('./images/space-moving.png'),
+    
+    wall: loadSprite('./images/wall/wall.png'),
+    wallDown: loadSprite('./images/wall/wall-down.png'),
+    wallHightLeft: loadSprite('./images/wall/wall-height-left.png'),
+    wallHightRight: loadSprite('./images/wall/wall-height-right.png'),
+    wallMiddle: loadSprite('./images/wall/wall-middle.png'),
+    wallHit: loadSprite('./images/wall/wall-hit.png'),
+    wallDownHit: loadSprite('./images/wall/wall-down-hit.png'),
+    wallHightLeftHit: loadSprite('./images/wall/wall-height-left-hit.png'),
+    wallHightRightHit: loadSprite('./images/wall/wall-height-right-hit.png'),
+    wallMiddleHit: loadSprite('./images/wall/wall-middle-hit.png')
 };
 
 window.addEventListener('load', function() {
