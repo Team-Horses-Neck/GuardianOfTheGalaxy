@@ -1,27 +1,27 @@
-
 class Engine {
-    constructor() {
+    constructor(ctx, sprites) {
         // Define game objects (player, enemies...)
-        this._keyboard = new Keyboard();
+        this._ctx = ctx;
+        this._userInput = new UserInput();
         this._guardian = new Player(ctx, sprites.guardian);
         this._space = new SpaceBackground(ctx, sprites.spaceStatic, sprites.spaceMoving);
-
-        
+        this._gameObjectsArray = [];
         this._gameObjectsArray.push(this._guardian);
     }
 
-    gameLoop() {
+    gameLoop(engine, ctx) {
         // Update
-        guardian.update(this._keyboard);
-        space.update();
+        engine._guardian.update(engine._userInput);
+        engine._space.update();
 
         // Draw
         ctx.clearAll();
-        _space.draw();
-        _gameObjectsArray.foreach(u => u.draw());
+        engine._space.draw();
+        engine._gameObjectsArray.forEach(u => u.draw());
 
-        requestAnimationFrame(gameLoop);
+        requestAnimationFrame(function() {
+            engine.gameLoop(engine, ctx);
+        });
     }
 
 }
-

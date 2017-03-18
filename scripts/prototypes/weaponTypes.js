@@ -1,4 +1,4 @@
 const weaponTypes = {
-	lasers: 0,
-	bullets: 1
-}
+    lasers: 0,
+    bullets: 1
+};
