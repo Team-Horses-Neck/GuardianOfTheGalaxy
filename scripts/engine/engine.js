@@ -59,7 +59,7 @@ class Engine {
     collisionDetect(object1, object2){
         //radiuses formula from workshops jumping pikachu
 
-        var radius1 = object1.radius,
+        let radius1 = object1.radius,
             radius2 = object2.radius,
             x1 = object1.x + (object1.width / 2),
             y1 = object1.y + (object1.height / 2),
