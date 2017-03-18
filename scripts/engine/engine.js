@@ -19,9 +19,9 @@ class Engine {
         this._gameObjectsArray.push(enemy);
     }
 
-    launchNewShell(e) {
-        const newShell = new Shell(e.enemyX, e.enemyY, this._ctx, this._sprites.shell, 1, 1);
-        this._gameObjectsArray.push(newShell);
+    launchNewProjectile(e) {
+        const newProjectile = new Projectile(e.enemyX, e.enemyY, this._ctx, this._sprites.projectile, 1, 1);
+        this._gameObjectsArray.push(newProjectile);
     }
 
     gameLoop(engine, ctx) {

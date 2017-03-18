@@ -1,8 +1,13 @@
-class Shell extends Unit{
-    constructor(x, y, ctx, sprite, speed, direction){
+class Projectile extends Unit{
+    constructor(x, y, ctx, sprite, speed, direction, shooter){
         super(x, y, ctx, sprite, speed);
 
+        this._shooter = shooter;
         this.direction = direction;
+    }
+
+    get shooter(){
+        return this._shooter;
     }
 
     get direction(){
@@ -16,7 +21,7 @@ class Shell extends Unit{
             this._direction = 1;
         }
         else{
-            throw new Error("Shell speed can not be 0");
+            throw new Error("Projectile speed can not be 0");
         }
     }
 
