@@ -17,7 +17,7 @@ class Enemy extends Unit {
         this.x += this._speedx;
         this.y += this._speedy;
         const outSide = this.x < 0 || this.x > this._ctx.canvas.width;
-        if (outside) {
+        if (outSide) {
             this._speedx = - this._speedx;
             this.move();  //move back from outside
         }
@@ -26,7 +26,7 @@ class Enemy extends Unit {
     update() {
         const now = new Date();
 
-        if (_timeToShoot - now < 0) {
+        if (this._timeToShoot - now < 0) {
             this._timeToShoot = this._newTimeToShoot();
             const enemyFireEvent = new CustomEvent('enemyFireShell', { enemyX: this.x, enemyY: this.y });
             document.dispatchEvent('enemyFireShell');

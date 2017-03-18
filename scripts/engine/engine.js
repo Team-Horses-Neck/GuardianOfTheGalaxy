@@ -26,8 +26,10 @@ class Engine {
 
     gameLoop(engine, ctx) {
         // Update
-        engine._guardian.update(engine._userInput);
+        engine._guardian.updateGuardian(engine._userInput);
         engine._space.update();
+        engine._gameObjectsArray.forEach(u => u.move());
+        engine._gameObjectsArray.forEach(u => u.update());
 
         // Draw
         ctx.clearAll();
