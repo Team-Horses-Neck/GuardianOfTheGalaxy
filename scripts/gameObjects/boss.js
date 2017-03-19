@@ -1,6 +1,3 @@
-/**
- * Created by Joro on 3/19/2017.
- */
 class Boss extends Unit{
 
     constructor(x, y, ctx, sprite, speed){
@@ -8,6 +5,7 @@ class Boss extends Unit{
 
         this.targetX = this._ctx.canvas.width / 2;
         this.targetY = this._ctx.canvas.height / 2;
+        this._timeToShoot = this._newTimeToShoot();
     }
 
     get targetX(){
@@ -60,6 +58,22 @@ class Boss extends Unit{
         if(this.x === this.targetX && this.y === this.targetY){
             this._getTargetPosition();
         }
+
+        let now = new Date();
+        now = now.getTime();
+
+        if (this._timeToShoot - now < 0) {
+            this._timeToShoot = this._newTimeToShoot();
+            const fireEvent = new CustomEvent('projectileFired', {
+                detail: {
+                    firedBy: unitTypes.enemy,
+                    x: this.x,
+                    y: this.y
+                }
+            });
+            window.dispatchEvent(fireEvent);
+            console.log('boss projectile');
+        }
     }
 
     _getTargetPosition(){
@@ -68,5 +82,15 @@ class Boss extends Unit{
 
         let newTargetY = Math.floor(Math.random() * this._ctx.canvas.height);
         this.targetY = newTargetY;
+    }
+
+    _newTimeToShoot() {
+        let now = new Date();
+        now = now.getTime();
+
+
+        let randomPeriod = Math.floor(2000 * Math.random()) + 200;
+
+        return now + randomPeriod;
     }
 }
