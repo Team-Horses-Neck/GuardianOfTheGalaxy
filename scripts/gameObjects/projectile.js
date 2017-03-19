@@ -46,7 +46,7 @@ class Projectile extends Unit {
     move() {
         this.y = this.y + (this.speed * this.direction);
 
-        const out = this.y < 0 || this.y > this._ctc.canvas.height;
+        const out = this.y < 0 || this.y > this._ctx.canvas.height;
         if (out) {
             const projectileOutEvent = new CustomEvent('projectileOut', { detail: this.id });
             window.dispatchEvent(projectileOutEvent);
