@@ -74,19 +74,4 @@ class Engine {
             this._gameObjectsArray.push(new Wall(ctx, sprites.wallDown, canvasWidth * 0.1 * i + (i - 1) * 3 * sprites.wall.width + 2 * sprites.wall.width, canvasHeight * 0.7 + 2 * sprites.wall.width));
         }
     }
-
-    collisionDetect(object1, object2){
-        //radiuses formula from workshops jumping pikachu
-
-        let radius1 = object1.radius,
-            radius2 = object2.radius,
-            x1 = object1.x + (object1.width / 2),
-            y1 = object1.y + (object1.height / 2),
-            x2 = object2.x + (object2.width / 2),
-            y2 = object2.y + (object2.height / 2),
-            distance = Math.sqrt(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)));
-
-        return dispatchEvent <= (radius1 + radius2);
-    }
-
 }
