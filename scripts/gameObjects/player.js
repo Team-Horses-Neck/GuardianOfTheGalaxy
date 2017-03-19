@@ -26,12 +26,14 @@ class Player extends Unit {
     }
 
     _shootProjectile() {
-        const fireEvent = new CustomEvent('projectileFired', { 
+        const projectileWidth = 11;
+        const offsetX = this.width / 2 - projectileWidth / 2;
+        const fireEvent = new CustomEvent('projectileFired', {
             detail: {
                 firedBy: unitTypes.player,
-                x: this.x, 
-                y: this.y 
-            } 
+                x: this.x + offsetX,
+                y: this.y
+            }
         });
         window.dispatchEvent(fireEvent);
     }
