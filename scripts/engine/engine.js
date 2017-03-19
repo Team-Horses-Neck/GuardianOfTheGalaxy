@@ -50,7 +50,6 @@ class Engine {
         engine._projectiles.forEach(u => u.update());
         engine._gameObjectsArray.forEach(u => u.move());
 
-        engine._gameObjectsArray.forEach(u => u.update());
         engine._enemies.forEach(u => u.move());
         engine._enemies.forEach(u => u.update());
         engine._gameObjectsArray.forEach(u => u.update(this._userInput));
