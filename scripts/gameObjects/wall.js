@@ -40,8 +40,17 @@ class Wall {
         return this._radius;
     }
 
+
     decreaseHealth() {
         this._health -= 1;
+    }
+
+    move() {
+
+    }
+
+    update() {
+
     }
 
     draw() {

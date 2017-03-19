@@ -3,6 +3,7 @@ function loadSprite(url) {
     img.src = url;
     return img;
 }
+
 //Define all game sprites here
 const sprites = {
     guardian: loadSprite('./images/guardian-small.png'),
@@ -22,6 +23,7 @@ const sprites = {
     wallMiddleHit: loadSprite('./images/wall/wall-middle-hit.png'),
 
     enemy: loadSprite('./images/enemies/enemy-small.png'),
+    boss: loadSprite('./images/enemies/possibleBoss.png'),
     projectile: loadSprite('./images/shell-small.png'),
     projectileUp: loadSprite('./images/shell-small-up.png'),
     spaceMoving: loadSprite('./images/space-moving.png')

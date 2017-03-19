@@ -1,34 +1,55 @@
 class Engine {
     constructor(ctx, sprites) {
-        // Define game objects (player, enemies...)
-        this._ctx = ctx;
         this._userInput = new UserInput();
-        this._sprites = sprites;
-        this._guardian = new Player(ctx, sprites.guardian);
         this._space = new SpaceBackground(ctx, sprites.spaceStatic, sprites.spaceMoving);
+
+        this._ctx = ctx;
+        this._sprites = sprites;
+        // Define game objects (player, enemies...)
+
         this._gameObjectsArray = [];
         this._enemies = [];
         this._projectiles = [];
         this._walls = [];
-        this._gameObjectsArray.push(this._guardian);
-        this.addWall(ctx, sprites);
-        this.resetGame();
+
+        this.initGame();
     }
 
-    resetGame() { //sets the initial field
+    createEnemyArmy() {
+        for (let i = 0; i < ENEMY_ROWS; i += 1) {
+            for (let j = 0; j < ENEMIES_PER_ROW; j += 1) {
+                const enemy = new Enemy(j * this._sprites.enemy.width * ENEMY_DENSITY + 2,
+                    i * this._sprites.enemy.height * ENEMY_DENSITY,
+                    this._ctx,
+                    this._sprites.enemy,
+                    ENEMY_SPEED);
+                this._enemies.push(enemy);
+                this._gameObjectsArray.push(enemy);
+            }
+        }
+    }
+
+    initGame() {
+        //sets the initial field
 
         //For now - only one enemy
-        const enemy = new Enemy(20, 20, this._ctx, this._sprites.enemy, 1);
-        this._enemies.push(enemy);
+        const boss = new Boss(30, 30, this._ctx, this._sprites.boss, 2);
+        this._enemies.push(boss);
+
+        this.createEnemyArmy();
+
+        //create player
+        const guardianImage = this._sprites.guardian;
+        const x = this._ctx.canvas.width / 2 - guardianImage.width / 2;
+        const y = this._ctx.canvas.height - guardianImage.height;
+        const player = new Player(x, y, this._ctx, guardianImage);
+
+        //create wall
+        this.createWall(this._ctx, this._sprites);
+
+        this._gameObjectsArray.push(player);
+        //this._gameObjectsArray.push(enemy);
     }
-
-    // launchNewShell(e) {
-
-    //     const newShell = new Shell(e.detail.enemyX, e.detail.enemyY, this._ctx, this._sprites.shell, 1, 1);
-    //     this._gameObjectsArray.push(newShell);
-    //     const enemy = new Enemy(20, 20, this._ctx, this._sprites.enemy, ENEMY_SPEED);
-    //     this._gameObjectsArray.push(enemy);
-    // }
 
     launchNewProjectile(e) {
         let projectile;
@@ -60,6 +81,8 @@ class Engine {
     onWallDestroy(e) {
         const index = this._walls.findIndex(w => w === e.detail);
         this._walls.splice(index, 1);
+        const indexObjectsArray = this._gameObjectsArray.findIndex(w => w === e.detail);
+        this._gameObjectsArray.splice(indexObjectsArray, 1);
     }
 
     gameLoop(engine, ctx) {
@@ -74,11 +97,9 @@ class Engine {
         engine._gameObjectsArray.forEach(u => u.update(this._userInput));
 
 
-        //Detect collision
-        const self = this;
         engine._projectiles.forEach(function(projectile) {
 
-            self._walls.forEach(function(wall) {
+            engine._walls.forEach(function(wall) {
                 if (projectile.hasCollidedWith(wall)) {
                     const projectileOutEvent = new CustomEvent('projectileOut', {
                         detail: projectile.id
@@ -94,25 +115,29 @@ class Engine {
                     }
 
                 }
-
             });
-
         });
 
         // Draw
         ctx.clearAll();
         engine._space.draw();
-        engine._walls.forEach(wall => wall.draw());
-        engine._gameObjectsArray.forEach(u => u.draw());
-        engine._projectiles.forEach(u => u.draw());
-        engine._enemies.forEach(u => u.draw());
+
+        //Possible fixes
+        if (this._enemies.length !== 0) {
+            engine._walls.forEach(wall => wall.draw());
+            engine._gameObjectsArray.forEach(u => u.draw());
+            engine._projectiles.forEach(u => u.draw());
+            engine._enemies.forEach(u => u.draw());
+        } else {
+            engine.createBoss();
+        }
 
         requestAnimationFrame(function() {
             engine.gameLoop(engine, ctx);
         });
     }
 
-    addWall(ctx, sprites) {
+    createWall(ctx, sprites) {
         const canvasHeight = ctx.canvas.height;
         const canvasWidth = ctx.canvas.width;
 
@@ -122,7 +147,6 @@ class Engine {
 
         const spriteHeight = sprites.wall.height;
         const wallStartPosHeight = canvasHeight * WALL_START_POS_HEIGHT;
-
 
         const spritesHightLeft = [sprites.wallHightLeftHit, sprites.wallHightLeft];
         const spritesHightRight = [sprites.wallHightRightHit, sprites.wallHightRight];
@@ -147,6 +171,10 @@ class Engine {
                 wallStartPosWidth * i + (i - 1) * wallWidth, wallStartPosHeight + 2 * spriteHeight));
             this._walls.push(new Wall(ctx, spritesDown,
                 wallStartPosWidth * i + (i - 1) * wallWidth + 2 * spriteWidth, wallStartPosHeight + 2 * spriteHeight));
+        }
+
+        for (const wall of this._walls) {
+            this._gameObjectsArray.push(wall);
         }
     }
 }
