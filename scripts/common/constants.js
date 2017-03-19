@@ -2,8 +2,9 @@
 const PLAYER_SPEED = 4; // px/frame
 const ENEMY_SPEED = 1;
 const PROJECTILE_SPEED = 1;
+const PLAYER_PROJECTILE_SPEED = 5;
 const SPACE_SCROLL_SPEED = 0.3; // px/frame
-const MIN_TIME_BETWEEN_SHOTS = 500; // ms
+const MIN_TIME_BETWEEN_SHOTS = 600; // ms
 const ENEMY_ROWS = 4;
 const ENEMIES_PER_ROW = 5;
 //const ENEMY_HEIGHT = 30;

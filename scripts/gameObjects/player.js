@@ -5,8 +5,8 @@ class Player extends Unit {
         super(x, y, ctx, sprite, PLAYER_SPEED);
 
         // Weapon properties
-        this._lastBulletShotTime = new Date(0);
-        this._currWeapon = weaponTypes.lasers;
+        this._lastProjectileShotTime = new Date(0);
+        this._currWeapon = weaponTypes.projectiles;
         this._lasersOn = false;
     }
 
@@ -27,12 +27,15 @@ class Player extends Unit {
         };
     }
 
-    _shootBullet() {
-        console.log('Pew pew ');
-        /*
-          add a Bullet() object in bulletsOnScreen and
-          remove it when it's off the screen or colides with an enemy
-        */
+    _shootProjectile() {
+        const fireEvent = new CustomEvent('projectileFired', { 
+            detail: {
+                firedBy: unitTypes.player,
+                x: this.x, 
+                y: this.y 
+            } 
+        });
+        window.dispatchEvent(fireEvent);
     }
 
     _drawLasers(ctx) {
@@ -75,11 +78,11 @@ class Player extends Unit {
             if (this._currWeapon === weaponTypes.lasers) {
                 this._lasersOn = true;
             }
-            if (this._currWeapon === weaponTypes.bullets) {
+            if (this._currWeapon === weaponTypes.projectiles) {
                 const currTime = new Date();
-                if (currTime - this._lastBulletShotTime > MIN_TIME_BETWEEN_SHOTS) {
-                    this._lastBulletShotTime = currTime;
-                    this._shootBullet();
+                if (currTime - this._lastProjectileShotTime > MIN_TIME_BETWEEN_SHOTS) {
+                    this._lastProjectileShotTime = currTime;
+                    this._shootProjectile();
                 }
             }
         } else {

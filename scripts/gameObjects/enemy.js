@@ -50,8 +50,14 @@ class Enemy extends Unit {
 
         if (this._timeToShoot - now < 0) {
             this._timeToShoot = this._newTimeToShoot();
-            const enemyFireEvent = new CustomEvent('enemyFireShell', { detail: { enemyX: this.x, enemyY: this.y } });
-            window.dispatchEvent(enemyFireEvent);
+            const fireEvent = new CustomEvent('projectileFired', { 
+                detail: {
+                    firedBy: unitTypes.enemy,
+                    x: this.x, 
+                    y: this.y 
+                } 
+            });
+            window.dispatchEvent(fireEvent);
         }
     }
 }

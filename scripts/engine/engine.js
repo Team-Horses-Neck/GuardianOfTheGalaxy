@@ -29,9 +29,23 @@ class Engine {
     //     this._gameObjectsArray.push(enemy);
     // }
 
-    launchNewProjectile(e) {        //Launch projectile by an enemy
-        const newProjectile = new Projectile(e.detail.enemyX, e.detail.enemyY, this._ctx, this._sprites.projectile, 1, PROJECTILE_SPEED);
-        this._projectiles.push(newProjectile);
+    launchNewProjectile(e) {
+        let projectile;
+        if (e.detail.firedBy === unitTypes.enemy) {
+            const shooter = unitTypes.enemy;
+            const direction = 1;
+            projectile = new Projectile(e.detail.x, e.detail.y,
+                                        this._ctx, this._sprites.projectile, 
+                                        PROJECTILE_SPEED, direction, shooter);
+        }
+        else if (e.detail.firedBy === unitTypes.player) {
+            const shooter = unitTypes.player;
+            const direction = -1;
+            projectile = new Projectile(e.detail.x, e.detail.y,
+                                        this._ctx, this._sprites.projectileUp, 
+                                        PLAYER_PROJECTILE_SPEED, direction, shooter);
+        }
+        this._projectiles.push(projectile);
     }
 
     onProjectileOut(e) {            //Remove projectile when out from the screen
