@@ -41,8 +41,7 @@ class Engine {
         //sets the initial field
 
         //For now - only one enemy
-        const boss = new Boss(30, 30, this._ctx, this._sprites.boss, 2);
-        this._enemies.push(boss);
+        this.createBoss();
 
         this.createEnemyArmy();
 
@@ -73,7 +72,7 @@ class Engine {
             projectile = new Projectile(e.detail.x, e.detail.y,
                 this._ctx, this._sprites.projectileUp,
                 PLAYER_PROJECTILE_SPEED, direction, shooter);
-        } else if(e.detail.firedBy === unitTypes.boss){
+        } else if (e.detail.firedBy === unitTypes.boss) {
             const shooter = unitTypes.boss;
             const direction = 1;
             projectile = new Projectile(e.detail.x, e.detail.y,
@@ -84,7 +83,7 @@ class Engine {
         this._projectiles.push(projectile);
     }
 
-    onProjectileOut(e) {        //Remove projectile when out from the screen
+    onProjectileOut(e) { //Remove projectile when out from the screen
         const index = this._projectiles.findIndex(x => x === e.detail);
         this._projectiles.splice(index, 1);
     }
@@ -132,14 +131,14 @@ class Engine {
 
         var projectilesToErase = []; //Cannot erase projectiles and enemies in the loops!
         var enemiesToErase = [];
-        engine._projectiles.forEach(function (projectile) {
+        engine._projectiles.forEach(function(projectile) {
 
             const projectileOutOfScreen = projectile.y < 0 || projectile.y > ctx.canvas.height;
             if (projectileOutOfScreen) {
                 projectilesToErase.push(projectile);
             }
 
-            engine._walls.forEach(function (wall) {
+            engine._walls.forEach(function(wall) {
                 if (projectile.hasCollidedWith(wall)) {
                     const projectileOutEvent = new CustomEvent('projectileOut', {
                         detail: projectile
@@ -156,7 +155,7 @@ class Engine {
                 }
             });
 
-            engine._enemies.forEach(function (enemy) {
+            engine._enemies.forEach(function(enemy) {
                 if (projectile.direction < 0 && projectile.hasCollidedWith(enemy)) {
                     engine._totalScore += enemy.points;
 
@@ -195,7 +194,7 @@ class Engine {
             engine.createBoss();
         }
 
-        requestAnimationFrame(function () {
+        requestAnimationFrame(function() {
             engine.gameLoop(engine, ctx);
         });
     }
@@ -239,5 +238,11 @@ class Engine {
         for (const wall of this._walls) {
             this._gameObjectsArray.push(wall);
         }
+    }
+
+    createBoss() {
+        const boss = new Boss(30, 30, this._ctx, this._sprites.boss, 2);
+        this._enemies.push(boss);
+        this._gameObjectsArray.push(boss);
     }
 }
