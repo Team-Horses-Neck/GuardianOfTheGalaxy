@@ -66,13 +66,12 @@ class Boss extends Unit{
             this._timeToShoot = this._newTimeToShoot();
             const fireEvent = new CustomEvent('projectileFired', {
                 detail: {
-                    firedBy: unitTypes.enemy,
+                    firedBy: unitTypes.boss,
                     x: this.x,
                     y: this.y
                 }
             });
             window.dispatchEvent(fireEvent);
-            console.log('boss projectile');
         }
     }
 
