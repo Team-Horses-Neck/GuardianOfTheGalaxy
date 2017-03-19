@@ -34,16 +34,20 @@ class Unit {
         this._speed = value;
     }
 
-    get width(){
+    get width() {
         return this._sprite.width;
     }
     
-    get height(){
+    get height() {
         return this._sprite.height;
     }
 
-    get radius(){
+    get radius() {
         return this._radius;
+    }
+
+    update() {
+        
     }
 
     move() {

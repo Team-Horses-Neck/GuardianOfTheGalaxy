@@ -12,7 +12,6 @@ class Enemy extends Unit {
         let now = new Date();
         now = now.getTime();
         let randomPeriod = Math.floor(10000 * Math.random());
-        console.log(now + randomPeriod);
         return now + randomPeriod;
     }
 
@@ -36,6 +35,5 @@ class Enemy extends Unit {
             window.dispatchEvent(enemyFireEvent);
 
         }
-        console.log(this._timeToShoot - now);
     }
 }
