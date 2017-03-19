@@ -7,6 +7,7 @@ class Engine {
         this._guardian = new Player(ctx, sprites.guardian);
         this._space = new SpaceBackground(ctx, sprites.spaceStatic, sprites.spaceMoving);
         this._gameObjectsArray = [];
+        this._enemies = [];
         this._projectiles = [];
         this._gameObjectsArray.push(this._guardian);
         this.addWall(ctx, sprites);
@@ -16,10 +17,8 @@ class Engine {
     resetGame() { //sets the initial field
 
         //For now - only one enemy
-        const enemy = new Enemy(20, 20, this._ctx, this._sprites.enemy, 0.5);
-        //const shell = new Shell(200, 20, this._ctx, this._sprites.shell, 1, 1);
-        //this._gameObjectsArray.push(shell);
-        this._gameObjectsArray.push(enemy);
+        const enemy = new Enemy(20, 20, this._ctx, this._sprites.enemy, 1);
+        this._enemies.push(enemy);
     }
 
     // launchNewShell(e) {
@@ -31,13 +30,17 @@ class Engine {
     // }
 
     launchNewProjectile(e) {        //Launch projectile by an enemy
-        const newProjectile = new Projectile(e.detail.enemyX, e.detail.enemyY, this._ctx, this._sprites.projectile, 1, 1);
+        const newProjectile = new Projectile(e.detail.enemyX, e.detail.enemyY, this._ctx, this._sprites.projectile, 1, PROJECTILE_SPEED);
         this._projectiles.push(newProjectile);
     }
 
     onProjectileOut(e) {            //Remove projectile when out from the screen
-        const index = this._projectiles.findIndex(x=>x.id===e.detail);
+        const index = this._projectiles.findIndex(x => x.id === e.detail);
         this._projectiles.splice(index, 1);
+    }
+
+    onEnemyGoDown() {
+        this._enemies.forEach(x => x.goDown = true);
     }
 
     gameLoop(engine, ctx) {
@@ -48,14 +51,17 @@ class Engine {
         engine._projectiles.forEach(u => u.update());
         engine._gameObjectsArray.forEach(u => u.move());
         engine._gameObjectsArray.forEach(u => u.update());
+        engine._enemies.forEach(u => u.move());
+        engine._enemies.forEach(u => u.update());
 
         // Draw
         ctx.clearAll();
         engine._space.draw();
         engine._gameObjectsArray.forEach(u => u.draw());
         engine._projectiles.forEach(u => u.draw());
+        engine._enemies.forEach(u => u.draw());
 
-        requestAnimationFrame(function() {
+        requestAnimationFrame(function () {
             engine.gameLoop(engine, ctx);
         });
     }
@@ -75,7 +81,7 @@ class Engine {
         }
     }
 
-    collisionDetect(object1, object2){
+    collisionDetect(object1, object2) {
         //radiuses formula from workshops jumping pikachu
 
         var radius1 = object1.radius,
