@@ -34,20 +34,37 @@ class Unit {
         this._speed = value;
     }
 
-    get width(){
-        return this._ctx.canvas.width;
+    get width() {
+        return this._sprite.width;
     }
     
-    get height(){
-        return this._ctx.canvas.height;
+    get height() {
+        return this._sprite.height;
     }
-    // used for collision detection
-    get radius(){
+
+    get radius() {
         return this._radius;
+    }
+
+    update() {
+        
     }
 
     move() {
 
+    }
+
+    hasCollidedWith(withUnit){
+        //formula from workshops jumping pikachu
+        // not tested
+        let self = this;
+        let x1 = self.x + (self.width / 2),
+            y1 = self.y + (self.height / 2),
+            x2 = withUnit.x + (withUnit.width / 2),
+            y2 = withUnit.y + (withUnit.height / 2),
+            distance = Math.sqrt(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)));
+
+        return distance <= (self.radius + withUnit.radius);
     }
 
     draw() {

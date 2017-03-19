@@ -1,12 +1,8 @@
-class Player {
+class Player extends Unit {
     constructor(ctx, sprite) {
-        this._ctx = ctx;
-        this._sprite = sprite;
-        this._speed = PLAYER_SPEED;
-
-        this.x = ctx.canvas.width / 2 - this.width / 2;
-        this.y = ctx.canvas.height - this._sprite.height;
-        this.bulletsOnScreen = [];
+        const x = ctx.canvas.width / 2 - sprite.width / 2;
+        const y = ctx.canvas.height - sprite.height;
+        super(x, y, ctx, sprite, PLAYER_SPEED);
 
         // Weapon properties
         this._lastBulletShotTime = new Date(0);
@@ -29,13 +25,6 @@ class Player {
                 y: this.y + this.height / 2 - marginTop
             }
         };
-    }
-
-    get width() {
-        return this._sprite.width;
-    }
-    get height() {
-        return this._sprite.height;
     }
 
     _shootBullet() {
@@ -64,7 +53,7 @@ class Player {
         ctx.closePath();
     }
 
-    updateGuardian(keyboard) {
+    update(keyboard) {
         // update position
         if (keyboard.isDown(keyboard.left)) {
             this.x -= this._speed;
@@ -74,10 +63,12 @@ class Player {
         }
 
         // colide with canvas edges
-        if (this.x < 0)
+        if (this.x < 0) {
             this.x = 0;
-        else if (this.x + this.width > this._ctx.canvas.width)
+        }
+        else if (this.x + this.width > this._ctx.canvas.width) {
             this.x = this._ctx.canvas.width - this.width;
+        }
 
         // Shoot behaviour
         if (keyboard.isDown(keyboard.space)) {
@@ -96,14 +87,6 @@ class Player {
                 this._lasersOn = false;
             }
         }
-    }
-
-    move() {
-
-    }
-
-    update() {
-
     }
 
     draw() {

@@ -20,8 +20,10 @@ class Enemy extends Unit {
     _newTimeToShoot() {
         let now = new Date();
         now = now.getTime();
-        let randomPeriod = Math.floor(20000 * Math.random());
-        console.log(now + randomPeriod);
+
+
+        let randomPeriod = Math.floor(10000 * Math.random());
+
         return now + randomPeriod;
     }
 
@@ -51,7 +53,5 @@ class Enemy extends Unit {
             const enemyFireEvent = new CustomEvent('enemyFireShell', { detail: { enemyX: this.x, enemyY: this.y } });
             window.dispatchEvent(enemyFireEvent);
         }
-
-        console.log(this._timeToShoot - now);
     }
 }
