@@ -43,7 +43,7 @@ class Enemy extends Unit {
         }
 
         if (this.goDown) {
-            this.y += this.height*ENEMY_DOWN;
+            this.y += ENEMY_DOWN;
             this._speedx = - this._speedx;
             this.x += this._speedx;
             this.goDown = false;
