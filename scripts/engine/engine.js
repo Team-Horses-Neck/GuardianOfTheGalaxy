@@ -16,6 +16,14 @@ class Engine {
         this.initGame();
     }
 
+    get totalScore() {
+        return this._totalScore;
+    }
+
+    set totalScore(value) {
+        this._totalScore = value;
+    }
+
     createEnemyArmy() {
         for (let i = 0; i < ENEMY_ROWS; i += 1) {
             for (let j = 0; j < ENEMIES_PER_ROW; j += 1) {
@@ -41,8 +49,11 @@ class Engine {
         //sets the initial field
 
         //For now - only one enemy
-        this.createBoss();
 
+
+        this.printScore();
+
+        this.createBoss();
         this.createEnemyArmy();
 
         //create player
@@ -118,6 +129,11 @@ class Engine {
         this._gameObjectsArray.splice(indexObjectsArray, 1);
     }
 
+    printScore() { //Long live loose coupling and dependency injection! And encapsulation!
+        const score = document.getElementById('score');
+        score.innerHTML = 'Score: ' + this._totalScore;
+    }
+
     gameLoop(engine, ctx) {
         // Update
         engine._space.update();
@@ -157,7 +173,8 @@ class Engine {
 
             engine._enemies.forEach(function(enemy) {
                 if (projectile.direction < 0 && projectile.hasCollidedWith(enemy)) {
-                    engine._totalScore += enemy.points;
+                    engine.totalScore += enemy.points;
+                    engine.printScore();
 
                     projectilesToErase.push(projectile);
                     enemiesToErase.push(enemy);
