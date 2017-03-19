@@ -18,11 +18,15 @@ class Engine {
     createEnemyArmy() {
         for (let i = 0; i < ENEMY_ROWS; i += 1) {
             for (let j = 0; j < ENEMIES_PER_ROW; j += 1) {
+                const firstHalfOfArmy = i<=ENEMY_ROWS/2-1;
+                const sprite = firstHalfOfArmy ? this._sprites.evilEnemy : this._sprites.enemy;
+                const points = firstHalfOfArmy ? EVIL_ENEMY_POINTS : ENEMY_POINTS;
                 const enemy = new Enemy(j * this._sprites.enemy.width * ENEMY_DENSITY + 2,
                     i * this._sprites.enemy.height * ENEMY_DENSITY,
                     this._ctx,
-                    this._sprites.enemy,
-                    ENEMY_SPEED);
+                    sprite,
+                    ENEMY_SPEED,
+                    points);
                 this._enemies.push(enemy);
                 this._gameObjectsArray.push(enemy);
             }

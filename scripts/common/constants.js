@@ -11,6 +11,8 @@ const ENEMIES_PER_ROW = 5;
 //const ENEMY_WIDTH = 30;
 const ENEMY_DOWN = 1; //Multiplies this._sprite.height (ENEMY_HEIGHT) - how much the enemies to go down on each iteration
 const ENEMY_DENSITY = 1.1; //multiplies times number of enemies on a row, times enemy width/height
+const ENEMY_POINTS = 100;
+const EVIL_ENEMY_POINTS = 200;
 
 const WALL_START_POS_WIDTH = 0.1;
 const WALL_START_POS_HEIGHT = 0.7;

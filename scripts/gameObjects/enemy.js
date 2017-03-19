@@ -1,12 +1,17 @@
 class Enemy extends Unit {
 
-    constructor(x, y, ctx, sprite, speed) {
+    constructor(x, y, ctx, sprite, speed, points) {
         super(x, y, ctx, sprite, speed);
 
         this._speedx = speed;
         this._speedy = 0;
         this._timeToShoot = this._newTimeToShoot();
         this.goDown = false;
+        this._points = points;
+    }
+
+    get points() {
+        return this._points;
     }
 
     get goDown() {
