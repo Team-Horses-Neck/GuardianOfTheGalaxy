@@ -6,11 +6,14 @@ class Enemy extends Unit {
         this._speedx = speed;
         this._speedy = 0;
         this._timeToShoot = this._newTimeToShoot();
-
     }
 
     _newTimeToShoot() {
-        return new Date().setSeconds(10 * Math.random);
+        let now = new Date();
+        now = now.getTime();
+        let randomPeriod = Math.floor(10000 * Math.random());
+        console.log(now + randomPeriod);
+        return now + randomPeriod;
     }
 
     move() {
@@ -24,13 +27,15 @@ class Enemy extends Unit {
     }
 
     update() {
-        const now = new Date();
+        let now = new Date();
+        now = now.getTime();
 
         if (this._timeToShoot - now < 0) {
             this._timeToShoot = this._newTimeToShoot();
-            const enemyFireEvent = new CustomEvent('enemyFireShell', { enemyX: this.x, enemyY: this.y });
-            document.dispatchEvent('enemyFireShell');
+            const enemyFireEvent = new CustomEvent('enemyFireShell', { detail: { enemyX: this.x, enemyY: this.y } });
+            window.dispatchEvent(enemyFireEvent);
 
         }
+        console.log(this._timeToShoot - now);
     }
 }
