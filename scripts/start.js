@@ -45,5 +45,7 @@ window.addEventListener('load', function() {
     window.addEventListener('projectileOut', (e) => engine.onProjectileOut(e));
     window.addEventListener('enemyGoDown', (e) => engine.onEnemyGoDown(e));
 
+    window.addEventListener('destroyWall', (e) => engine.onWallDestroy(e));
+
     engine.gameLoop(engine, ctx);
 });

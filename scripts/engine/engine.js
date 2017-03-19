@@ -57,6 +57,11 @@ class Engine {
         this._enemies.forEach(x => x.goDown = true);
     }
 
+    onWallDestroy(e) {
+        const index = this._walls.findIndex(w => w === e.detail);
+        this._walls.splice(index, 1);
+    }
+
     gameLoop(engine, ctx) {
         // Update
         engine._space.update();
@@ -75,7 +80,19 @@ class Engine {
 
             self._walls.forEach(function(wall) {
                 if (projectile.hasCollidedWith(wall)) {
-                    console.log(1);
+                    const projectileOutEvent = new CustomEvent('projectileOut', {
+                        detail: projectile.id
+                    });
+                    window.dispatchEvent(projectileOutEvent);
+
+                    wall.decreaseHealth();
+                    if (wall.health === 0) {
+                        const destroyWallEvent = new CustomEvent('destroyWall', {
+                            detail: wall
+                        });
+                        window.dispatchEvent(destroyWallEvent);
+                    }
+
                 }
 
             });
@@ -111,7 +128,7 @@ class Engine {
         const spritesHightRight = [sprites.wallHightRightHit, sprites.wallHightRight];
         const spritesMiddle = [sprites.wallMiddleHit, sprites.wallMiddle];
         const spritesWall = [sprites.wallHit, sprites.wall];
-        const spritesDown = [sprites.wallHit, sprites.wallDown];
+        const spritesDown = [sprites.wallDownHit, sprites.wallDown];
 
         for (let i = 1; i < 6; i += 1) {
             this._walls.push(new Wall(ctx, spritesHightLeft,

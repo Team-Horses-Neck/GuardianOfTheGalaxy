@@ -24,6 +24,10 @@ class Wall {
         this._y = val;
     }
 
+    get health() {
+        return this._health;
+    }
+
     get width() {
         return this._sprites[0].width;
     }
@@ -34,6 +38,10 @@ class Wall {
 
     get radius() {
         return this._radius;
+    }
+
+    decreaseHealth() {
+        this._health -= 1;
     }
 
     draw() {
