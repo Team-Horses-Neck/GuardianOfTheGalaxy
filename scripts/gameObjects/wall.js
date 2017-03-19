@@ -1,9 +1,13 @@
 class Wall {
-    constructor(ctx, sprite, x, y) {
+    constructor(ctx, sprites, x, y) {
         this._ctx = ctx;
-        this._sprite = sprite;
+        this._health = 2;
+        this._sprites = sprites;
+
         this.x = x;
         this.y = y;
+
+        this._radius = (this.width + this.height) / 4;
     }
 
     get x() {
@@ -19,17 +23,24 @@ class Wall {
     set y(val) {
         this._y = val;
     }
-    move() {
 
+    get width() {
+        return this._sprites[0].width;
     }
-    update(){
-      
+
+    get height() {
+        return this._sprites[0].height;
     }
+
+    get radius() {
+        return this._radius;
+    }
+
     draw() {
         const ctx = this._ctx;
         ctx.drawImage(
-            this._sprite,
+            this._sprites[this._health - 1],
             this.x, this.y,
-            this._sprite.width, this._sprite.height);
+            this._sprites[this._health - 1].width, this._sprites[this._health - 1].height);
     }
 }
