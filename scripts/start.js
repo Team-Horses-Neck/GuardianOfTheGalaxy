@@ -23,6 +23,7 @@ const sprites = {
     wallMiddleHit: loadSprite('./images/wall/wall-middle-hit.png'),
 
     enemy: loadSprite('./images/enemies/enemy-small.png'),
+    evilEnemy: loadSprite('./images/enemies/evil-enemy-small.png'),
     boss: loadSprite('./images/enemies/possibleBoss.png'),
     projectile: loadSprite('./images/shell-small.png'),
     projectileUp: loadSprite('./images/shell-small-up.png'),
