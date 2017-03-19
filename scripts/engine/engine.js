@@ -7,6 +7,7 @@ class Engine {
         this._guardian = new Player(ctx, sprites.guardian);
         this._space = new SpaceBackground(ctx, sprites.spaceStatic, sprites.spaceMoving);
         this._gameObjectsArray = [];
+        this._projectiles = [];
         this._gameObjectsArray.push(this._guardian);
         this.addWall(ctx, sprites);
         this.resetGame();
@@ -29,15 +30,22 @@ class Engine {
     //     this._gameObjectsArray.push(enemy);
     // }
 
-    launchNewProjectile(e) {
+    launchNewProjectile(e) {        //Launch projectile by an enemy
         const newProjectile = new Projectile(e.detail.enemyX, e.detail.enemyY, this._ctx, this._sprites.projectile, 1, 1);
-        this._gameObjectsArray.push(newProjectile);
+        this._projectiles.push(newProjectile);
+    }
+
+    onProjectileOut(e) {            //Remove projectile when out from the screen
+        const index = this._projectiles.findIndex(x=>x.id===e.detail);
+        this._projectiles.splice(index, 1);
     }
 
     gameLoop(engine, ctx) {
         // Update
         engine._guardian.updateGuardian(engine._userInput);
         engine._space.update();
+        engine._projectiles.forEach(u => u.move());
+        engine._projectiles.forEach(u => u.update());
         engine._gameObjectsArray.forEach(u => u.move());
         engine._gameObjectsArray.forEach(u => u.update());
 
@@ -45,6 +53,7 @@ class Engine {
         ctx.clearAll();
         engine._space.draw();
         engine._gameObjectsArray.forEach(u => u.draw());
+        engine._projectiles.forEach(u => u.draw());
 
         requestAnimationFrame(function() {
             engine.gameLoop(engine, ctx);

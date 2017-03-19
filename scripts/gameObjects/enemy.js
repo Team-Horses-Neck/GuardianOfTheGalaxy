@@ -6,7 +6,6 @@ class Enemy extends Unit {
         this._speedx = speed;
         this._speedy = 0;
         this._timeToShoot = this._newTimeToShoot();
-
     }
 
     _newTimeToShoot() {
