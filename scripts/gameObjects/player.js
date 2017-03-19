@@ -1,16 +1,12 @@
-class Player {
+class Player extends Unit {
     constructor(ctx, sprite) {
-        this._ctx = ctx;
-        this._sprite = sprite;
-        this._speed = PLAYER_SPEED;
-
-        this.x = ctx.canvas.width / 2 - this.width / 2;
-        this.y = ctx.canvas.height - this._sprite.height;
-        this.bulletsOnScreen = [];
+        const x = ctx.canvas.width / 2 - sprite.width / 2;
+        const y = ctx.canvas.height - sprite.height;
+        super(x, y, ctx, sprite, PLAYER_SPEED);
 
         // Weapon properties
-        this._lastBulletShotTime = new Date(0);
-        this._currWeapon = weaponTypes.lasers;
+        this._lastProjectileShotTime = new Date(0);
+        this._currWeapon = weaponTypes.projectiles;
         this._lasersOn = false;
     }
 
@@ -31,19 +27,15 @@ class Player {
         };
     }
 
-    get width() {
-        return this._sprite.width;
-    }
-    get height() {
-        return this._sprite.height;
-    }
-
-    _shootBullet() {
-        console.log('Pew pew ');
-        /*
-          add a Bullet() object in bulletsOnScreen and
-          remove it when it's off the screen or colides with an enemy
-        */
+    _shootProjectile() {
+        const fireEvent = new CustomEvent('projectileFired', { 
+            detail: {
+                firedBy: unitTypes.player,
+                x: this.x, 
+                y: this.y 
+            } 
+        });
+        window.dispatchEvent(fireEvent);
     }
 
     _drawLasers(ctx) {
@@ -64,7 +56,7 @@ class Player {
         ctx.closePath();
     }
 
-    updateGuardian(keyboard) {
+    update(keyboard) {
         // update position
         if (keyboard.isDown(keyboard.left)) {
             this.x -= this._speed;
@@ -74,21 +66,23 @@ class Player {
         }
 
         // colide with canvas edges
-        if (this.x < 0)
+        if (this.x < 0) {
             this.x = 0;
-        else if (this.x + this.width > this._ctx.canvas.width)
+        }
+        else if (this.x + this.width > this._ctx.canvas.width) {
             this.x = this._ctx.canvas.width - this.width;
+        }
 
         // Shoot behaviour
         if (keyboard.isDown(keyboard.space)) {
             if (this._currWeapon === weaponTypes.lasers) {
                 this._lasersOn = true;
             }
-            if (this._currWeapon === weaponTypes.bullets) {
+            if (this._currWeapon === weaponTypes.projectiles) {
                 const currTime = new Date();
-                if (currTime - this._lastBulletShotTime > MIN_TIME_BETWEEN_SHOTS) {
-                    this._lastBulletShotTime = currTime;
-                    this._shootBullet();
+                if (currTime - this._lastProjectileShotTime > MIN_TIME_BETWEEN_SHOTS) {
+                    this._lastProjectileShotTime = currTime;
+                    this._shootProjectile();
                 }
             }
         } else {
@@ -96,14 +90,6 @@ class Player {
                 this._lasersOn = false;
             }
         }
-    }
-
-    move() {
-
-    }
-
-    update() {
-
     }
 
     draw() {

@@ -7,6 +7,7 @@ class Engine {
         this._guardian = new Player(ctx, sprites.guardian);
         this._space = new SpaceBackground(ctx, sprites.spaceStatic, sprites.spaceMoving);
         this._gameObjectsArray = [];
+        this._enemies = [];
         this._projectiles = [];
         this._walls = [];
         this._gameObjectsArray.push(this._guardian);
@@ -17,10 +18,8 @@ class Engine {
     resetGame() { //sets the initial field
 
         //For now - only one enemy
-        const enemy = new Enemy(20, 20, this._ctx, this._sprites.enemy, 0.5);
-        //const shell = new Shell(200, 20, this._ctx, this._sprites.shell, 1, 1);
-        //this._gameObjectsArray.push(shell);
-        this._gameObjectsArray.push(enemy);
+        const enemy = new Enemy(20, 20, this._ctx, this._sprites.enemy, 1);
+        this._enemies.push(enemy);
     }
 
     // launchNewShell(e) {
@@ -31,9 +30,22 @@ class Engine {
     //     this._gameObjectsArray.push(enemy);
     // }
 
-    launchNewProjectile(e) { //Launch projectile by an enemy
-        const newProjectile = new Projectile(e.detail.enemyX, e.detail.enemyY, this._ctx, this._sprites.projectile, 1, 1);
-        this._projectiles.push(newProjectile);
+    launchNewProjectile(e) {
+        let projectile;
+        if (e.detail.firedBy === unitTypes.enemy) {
+            const shooter = unitTypes.enemy;
+            const direction = 1;
+            projectile = new Projectile(e.detail.x, e.detail.y,
+                this._ctx, this._sprites.projectile,
+                PROJECTILE_SPEED, direction, shooter);
+        } else if (e.detail.firedBy === unitTypes.player) {
+            const shooter = unitTypes.player;
+            const direction = -1;
+            projectile = new Projectile(e.detail.x, e.detail.y,
+                this._ctx, this._sprites.projectileUp,
+                PLAYER_PROJECTILE_SPEED, direction, shooter);
+        }
+        this._projectiles.push(projectile);
     }
 
     onProjectileOut(e) { //Remove projectile when out from the screen
@@ -41,14 +53,21 @@ class Engine {
         this._projectiles.splice(index, 1);
     }
 
+    onEnemyGoDown() {
+        this._enemies.forEach(x => x.goDown = true);
+    }
+
     gameLoop(engine, ctx) {
         // Update
-        engine._guardian.updateGuardian(engine._userInput);
         engine._space.update();
         engine._projectiles.forEach(u => u.move());
         engine._projectiles.forEach(u => u.update());
         engine._gameObjectsArray.forEach(u => u.move());
-        engine._gameObjectsArray.forEach(u => u.update());
+
+        engine._enemies.forEach(u => u.move());
+        engine._enemies.forEach(u => u.update());
+        engine._gameObjectsArray.forEach(u => u.update(this._userInput));
+
 
         //Detect collision
         const self = this;
@@ -69,6 +88,7 @@ class Engine {
         engine._walls.forEach(wall => wall.draw());
         engine._gameObjectsArray.forEach(u => u.draw());
         engine._projectiles.forEach(u => u.draw());
+        engine._enemies.forEach(u => u.draw());
 
         requestAnimationFrame(function() {
             engine.gameLoop(engine, ctx);

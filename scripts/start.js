@@ -23,6 +23,7 @@ const sprites = {
 
     enemy: loadSprite('./images/enemies/enemy-small.png'),
     projectile: loadSprite('./images/shell-small.png'),
+    projectileUp: loadSprite('./images/shell-small-up.png'),
     spaceMoving: loadSprite('./images/space-moving.png')
 
 };
@@ -40,8 +41,9 @@ window.addEventListener('load', function() {
     // Keyboard events
     window.addEventListener('keydown', (e) => engine._userInput.onKeydown(e), false);
     window.addEventListener('keyup', (e) => engine._userInput.onKeyup(e), false);
-    window.addEventListener('enemyFireShell', (e) => engine.launchNewProjectile(e));
-    window.addEventListener('projectileOut', (e)=>engine.onProjectileOut(e));
+    window.addEventListener('projectileFired', (e) => engine.launchNewProjectile(e));
+    window.addEventListener('projectileOut', (e) => engine.onProjectileOut(e));
+    window.addEventListener('enemyGoDown', (e) => engine.onEnemyGoDown(e));
 
     engine.gameLoop(engine, ctx);
 });
