@@ -8,6 +8,7 @@ class Engine {
         this._space = new SpaceBackground(ctx, sprites.spaceStatic, sprites.spaceMoving);
         this._gameObjectsArray = [];
         this._projectiles = [];
+        this._walls = [];
         this._gameObjectsArray.push(this._guardian);
         this.addWall(ctx, sprites);
         this.resetGame();
@@ -30,13 +31,13 @@ class Engine {
     //     this._gameObjectsArray.push(enemy);
     // }
 
-    launchNewProjectile(e) {        //Launch projectile by an enemy
+    launchNewProjectile(e) { //Launch projectile by an enemy
         const newProjectile = new Projectile(e.detail.enemyX, e.detail.enemyY, this._ctx, this._sprites.projectile, 1, 1);
         this._projectiles.push(newProjectile);
     }
 
-    onProjectileOut(e) {            //Remove projectile when out from the screen
-        const index = this._projectiles.findIndex(x=>x.id===e.detail);
+    onProjectileOut(e) { //Remove projectile when out from the screen
+        const index = this._projectiles.findIndex(x => x.id === e.detail);
         this._projectiles.splice(index, 1);
     }
 
@@ -49,9 +50,23 @@ class Engine {
         engine._gameObjectsArray.forEach(u => u.move());
         engine._gameObjectsArray.forEach(u => u.update());
 
+        //Detect collision
+        const self = this;
+        engine._projectiles.forEach(function(projectile) {
+
+            self._walls.forEach(function(wall) {
+                if (projectile.hasCollidedWith(wall)) {
+                    console.log(1);
+                }
+
+            });
+
+        });
+
         // Draw
         ctx.clearAll();
         engine._space.draw();
+        engine._walls.forEach(wall => wall.draw());
         engine._gameObjectsArray.forEach(u => u.draw());
         engine._projectiles.forEach(u => u.draw());
 
@@ -63,15 +78,38 @@ class Engine {
     addWall(ctx, sprites) {
         const canvasHeight = ctx.canvas.height;
         const canvasWidth = ctx.canvas.width;
+
+        const spriteWidth = sprites.wall.width;
+        const wallWidth = 3 * spriteWidth;
+        const wallStartPosWidth = canvasWidth * WALL_START_POS_WIDTH;
+
+        const spriteHeight = sprites.wall.height;
+        const wallStartPosHeight = canvasHeight * WALL_START_POS_HEIGHT;
+
+
+        const spritesHightLeft = [sprites.wallHightLeftHit, sprites.wallHightLeft];
+        const spritesHightRight = [sprites.wallHightRightHit, sprites.wallHightRight];
+        const spritesMiddle = [sprites.wallMiddleHit, sprites.wallMiddle];
+        const spritesWall = [sprites.wallHit, sprites.wall];
+        const spritesDown = [sprites.wallHit, sprites.wallDown];
+
         for (let i = 1; i < 6; i += 1) {
-            this._gameObjectsArray.push(new Wall(ctx, sprites.wallHightLeft, canvasWidth * 0.1 * i + (i - 1) * 3 * sprites.wall.width, canvasHeight * 0.7));
-            this._gameObjectsArray.push(new Wall(ctx, sprites.wall, canvasWidth * 0.1 * i + (i - 1) * 3 * sprites.wall.width + sprites.wall.width, canvasHeight * 0.7));
-            this._gameObjectsArray.push(new Wall(ctx, sprites.wallHightRight, canvasWidth * 0.1 * i + (i - 1) * 3 * sprites.wall.width + 2 * sprites.wall.width, canvasHeight * 0.7));
-            this._gameObjectsArray.push(new Wall(ctx, sprites.wall, canvasWidth * 0.1 * i + (i - 1) * 3 * sprites.wall.width, canvasHeight * 0.7 + sprites.wall.width));
-            this._gameObjectsArray.push(new Wall(ctx, sprites.wallMiddle, canvasWidth * 0.1 * i + (i - 1) * 3 * sprites.wall.width + sprites.wall.width, canvasHeight * 0.7 + sprites.wall.width));
-            this._gameObjectsArray.push(new Wall(ctx, sprites.wall, canvasWidth * 0.1 * i + (i - 1) * 3 * sprites.wall.width + 2 * sprites.wall.width, canvasHeight * 0.7 + sprites.wall.width));
-            this._gameObjectsArray.push(new Wall(ctx, sprites.wallDown, canvasWidth * 0.1 * i + (i - 1) * 3 * sprites.wall.width, canvasHeight * 0.7 + 2 * sprites.wall.width));
-            this._gameObjectsArray.push(new Wall(ctx, sprites.wallDown, canvasWidth * 0.1 * i + (i - 1) * 3 * sprites.wall.width + 2 * sprites.wall.width, canvasHeight * 0.7 + 2 * sprites.wall.width));
+            this._walls.push(new Wall(ctx, spritesHightLeft,
+                wallStartPosWidth * i + (i - 1) * wallWidth, wallStartPosHeight));
+            this._walls.push(new Wall(ctx, spritesWall,
+                wallStartPosWidth * i + (i - 1) * wallWidth + spriteWidth, wallStartPosHeight));
+            this._walls.push(new Wall(ctx, spritesHightRight,
+                wallStartPosWidth * i + (i - 1) * wallWidth + 2 * spriteWidth, wallStartPosHeight));
+            this._walls.push(new Wall(ctx, spritesWall,
+                wallStartPosWidth * i + (i - 1) * wallWidth, wallStartPosHeight + spriteHeight));
+            this._walls.push(new Wall(ctx, spritesMiddle,
+                wallStartPosWidth * i + (i - 1) * wallWidth + spriteWidth, wallStartPosHeight + spriteHeight));
+            this._walls.push(new Wall(ctx, spritesWall,
+                wallStartPosWidth * i + (i - 1) * wallWidth + 2 * spriteWidth, wallStartPosHeight + spriteHeight));
+            this._walls.push(new Wall(ctx, spritesDown,
+                wallStartPosWidth * i + (i - 1) * wallWidth, wallStartPosHeight + 2 * spriteHeight));
+            this._walls.push(new Wall(ctx, spritesDown,
+                wallStartPosWidth * i + (i - 1) * wallWidth + 2 * spriteWidth, wallStartPosHeight + 2 * spriteHeight));
         }
     }
 }
