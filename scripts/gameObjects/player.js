@@ -1,7 +1,5 @@
 class Player extends Unit {
-    constructor(ctx, sprite) {
-        const x = ctx.canvas.width / 2 - sprite.width / 2;
-        const y = ctx.canvas.height - sprite.height;
+    constructor(x, y, ctx, sprite) {
         super(x, y, ctx, sprite, PLAYER_SPEED);
 
         // Weapon properties
