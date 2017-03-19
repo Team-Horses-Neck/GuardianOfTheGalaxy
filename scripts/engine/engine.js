@@ -33,8 +33,9 @@ class Engine {
         //sets the initial field
 
         //For now - only one enemy
-        // const enemy = new Enemy(20, 20, this._ctx, this._sprites.enemy, 1);
-        // this._enemies.push(enemy);
+        const boss = new Boss(30, 30, this._ctx, this._sprites.boss, 2);
+        this._enemies.push(boss);
+
         this.createEnemyArmy();
 
         //create player
@@ -102,10 +103,16 @@ class Engine {
         // Draw
         ctx.clearAll();
         engine._space.draw();
-        engine._walls.forEach(wall => wall.draw());
-        engine._gameObjectsArray.forEach(u => u.draw());
-        engine._projectiles.forEach(u => u.draw());
-        engine._enemies.forEach(u => u.draw());
+
+        //Possible fixes
+        if(this._enemies.length !== 0){
+            engine._walls.forEach(wall => wall.draw());
+            engine._gameObjectsArray.forEach(u => u.draw());
+            engine._projectiles.forEach(u => u.draw());
+            engine._enemies.forEach(u => u.draw());
+        } else{
+            engine.createBoss();
+        }
 
         requestAnimationFrame(function () {
             engine.gameLoop(engine, ctx);
