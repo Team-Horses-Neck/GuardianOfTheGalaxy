@@ -5,6 +5,7 @@ class Engine {
 
         this._ctx = ctx;
         this._sprites = sprites;
+        this._totalScore = 0;
         // Define game objects (player, enemies...)
 
         this._gameObjectsArray = [];
@@ -18,15 +19,18 @@ class Engine {
     createEnemyArmy() {
         for (let i = 0; i < ENEMY_ROWS; i += 1) {
             for (let j = 0; j < ENEMIES_PER_ROW; j += 1) {
-                const firstHalfOfArmy = i<=ENEMY_ROWS/2-1;
+
+                const firstHalfOfArmy = i <= ENEMY_ROWS / 2 - 1;
                 const sprite = firstHalfOfArmy ? this._sprites.evilEnemy : this._sprites.enemy;
                 const points = firstHalfOfArmy ? EVIL_ENEMY_POINTS : ENEMY_POINTS;
+
                 const enemy = new Enemy(j * this._sprites.enemy.width * ENEMY_DENSITY + 2,
                     i * this._sprites.enemy.height * ENEMY_DENSITY,
                     this._ctx,
                     sprite,
                     ENEMY_SPEED,
                     points);
+
                 this._enemies.push(enemy);
                 this._gameObjectsArray.push(enemy);
             }
@@ -73,13 +77,32 @@ class Engine {
         this._projectiles.push(projectile);
     }
 
-    onProjectileOut(e) { //Remove projectile when out from the screen
-        const index = this._projectiles.findIndex(x => x.id === e.detail);
+    onProjectileOut(e) {        //Remove projectile when out from the screen
+        const index = this._projectiles.findIndex(x => x === e.detail);
         this._projectiles.splice(index, 1);
     }
 
     onEnemyGoDown() {
         this._enemies.forEach(x => x.goDown = true);
+    }
+
+    onEnemiesToErase(e) {
+        for (let i = 0; i < e.detail.length; i += 1) {
+            let index = this._enemies.findIndex(x => x === e.detail[i]);
+            this._enemies.splice(index, 1);
+        }
+
+        for (let i = 0; i < e.detail.length; i += 1) {
+            let index = this._gameObjectsArray.findIndex(x => x === e.detail[i]);
+            this._gameObjectsArray.splice(index, 1);
+        }
+    }
+
+    onProjectilesToErase(e) {
+        for (let i = 0; i < e.detail.length; i += 1) {
+            let index = this._projectiles.findIndex(x => x === e.detail[i]);
+            this._projectiles.splice(index, 1);
+        }
     }
 
     onWallDestroy(e) {
@@ -100,13 +123,19 @@ class Engine {
         engine._enemies.forEach(u => u.update());
         engine._gameObjectsArray.forEach(u => u.update(this._userInput));
 
+        var projectilesToErase = []; //Cannot erase projectiles and enemies in the loops!
+        var enemiesToErase = [];
+        engine._projectiles.forEach(function (projectile) {
 
-        engine._projectiles.forEach(function(projectile) {
+            const projectileOutOfScreen = projectile.y < 0 || projectile.y > ctx.canvas.height;
+            if (projectileOutOfScreen) {
+                projectilesToErase.push(projectile);
+            }
 
-            engine._walls.forEach(function(wall) {
+            engine._walls.forEach(function (wall) {
                 if (projectile.hasCollidedWith(wall)) {
                     const projectileOutEvent = new CustomEvent('projectileOut', {
-                        detail: projectile.id
+                        detail: projectile
                     });
                     window.dispatchEvent(projectileOutEvent);
 
@@ -117,10 +146,33 @@ class Engine {
                         });
                         window.dispatchEvent(destroyWallEvent);
                     }
+                }
+            });
 
+            engine._enemies.forEach(function (enemy) {
+                if (projectile.direction < 0 && projectile.hasCollidedWith(enemy)) {
+                    engine._totalScore += enemy.points;
+
+                    projectilesToErase.push(projectile);
+                    enemiesToErase.push(enemy);
                 }
             });
         });
+
+        if (enemiesToErase.length > 0) {
+            const enemiesToEraseEvent = new CustomEvent('enemiesToErase', {
+                detail: enemiesToErase
+            });
+            window.dispatchEvent(enemiesToEraseEvent);
+        }
+
+        if (projectilesToErase.length > 0) {
+            const projectilesToEraseEvent = new CustomEvent('projectilesToErase', {
+                detail: projectilesToErase
+            });
+            window.dispatchEvent(projectilesToEraseEvent);
+        }
+
 
         // Draw
         ctx.clearAll();
@@ -136,7 +188,7 @@ class Engine {
             engine.createBoss();
         }
 
-        requestAnimationFrame(function() {
+        requestAnimationFrame(function () {
             engine.gameLoop(engine, ctx);
         });
     }

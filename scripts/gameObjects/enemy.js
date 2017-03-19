@@ -59,8 +59,8 @@ class Enemy extends Unit {
             const fireEvent = new CustomEvent('projectileFired', { 
                 detail: {
                     firedBy: unitTypes.enemy,
-                    x: this.x, 
-                    y: this.y 
+                    x: this.x + this.width/2, 
+                    y: this.y + this.height + 1 
                 } 
             });
             window.dispatchEvent(fireEvent);
