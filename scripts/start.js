@@ -41,6 +41,7 @@ window.addEventListener('load', function() {
     window.addEventListener('keydown', (e) => engine._userInput.onKeydown(e), false);
     window.addEventListener('keyup', (e) => engine._userInput.onKeyup(e), false);
     window.addEventListener('enemyFireShell', (e) => engine.launchNewProjectile(e));
+    window.addEventListener('projectileOut', (e)=>engine.onProjectileOut(e));
 
     engine.gameLoop(engine, ctx);
 });
