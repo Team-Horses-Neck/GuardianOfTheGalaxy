@@ -73,7 +73,14 @@ class Engine {
             projectile = new Projectile(e.detail.x, e.detail.y,
                 this._ctx, this._sprites.projectileUp,
                 PLAYER_PROJECTILE_SPEED, direction, shooter);
+        } else if(e.detail.firedBy === unitTypes.boss){
+            const shooter = unitTypes.boss;
+            const direction = 1;
+            projectile = new Projectile(e.detail.x, e.detail.y,
+                this._ctx, this._sprites.projectile,
+                BOSS_PROJECTILE_SPEED, direction, shooter);
         }
+
         this._projectiles.push(projectile);
     }
 
