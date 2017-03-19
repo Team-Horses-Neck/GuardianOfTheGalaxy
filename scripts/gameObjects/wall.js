@@ -36,6 +36,14 @@ class Wall {
         return this._radius;
     }
 
+    move() {
+
+    }
+
+    update() {
+        
+    }
+
     draw() {
         const ctx = this._ctx;
         ctx.drawImage(
