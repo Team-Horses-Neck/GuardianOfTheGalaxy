@@ -18,7 +18,7 @@ class Engine {
     createEnemyArmy() {
         for (let i = 0; i < ENEMY_ROWS; i += 1) {
             for (let j = 0; j < ENEMIES_PER_ROW; j += 1) {
-                const enemy = new Enemy(j*this._sprites.enemy.width*ENEMY_DENSITY, 
+                const enemy = new Enemy(j*this._sprites.enemy.width*ENEMY_DENSITY+2, 
                     i*this._sprites.enemy.height*ENEMY_DENSITY, 
                     this._ctx, 
                     this._sprites.enemy, 
@@ -96,9 +96,7 @@ class Engine {
                 if (projectile.hasCollidedWith(wall)) {
                     console.log(1);
                 }
-
             });
-
         });
 
         // Draw

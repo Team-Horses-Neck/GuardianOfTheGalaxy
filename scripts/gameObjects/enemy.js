@@ -22,7 +22,7 @@ class Enemy extends Unit {
         now = now.getTime();
 
 
-        let randomPeriod = Math.floor(10000 * Math.random());
+        let randomPeriod = Math.floor(20000 * Math.random()) + 2000;
 
         return now + randomPeriod;
     }
@@ -32,7 +32,7 @@ class Enemy extends Unit {
         this.y += this._speedy;
 
         const outSide = this.x < 0 || (this.x + this._sprite.width) > this._ctx.canvas.width;
-        if (outSide) {
+        if (outSide && !this.goDown) {
             const enemyGoDownEvent = new CustomEvent('enemyGoDown');
             window.dispatchEvent(enemyGoDownEvent);
         }
@@ -40,6 +40,7 @@ class Enemy extends Unit {
         if (this.goDown) {
             this.y += this.height*ENEMY_DOWN;
             this._speedx = - this._speedx;
+            this.x += this._speedx;
             this.goDown = false;
         }
     }
