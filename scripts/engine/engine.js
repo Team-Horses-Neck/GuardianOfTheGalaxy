@@ -16,6 +16,14 @@ class Engine {
         this.initGame();
     }
 
+    get totalScore() {
+        return this._totalScore;
+    }
+
+    set totalScore(value) {
+        this._totalScore = value;
+    }
+
     createEnemyArmy() {
         for (let i = 0; i < ENEMY_ROWS; i += 1) {
             for (let j = 0; j < ENEMIES_PER_ROW; j += 1) {
@@ -41,9 +49,11 @@ class Engine {
         //sets the initial field
 
         //For now - only one enemy
-        const boss = new Boss(30, 30, this._ctx, this._sprites.boss, 2);
-        this._enemies.push(boss);
 
+
+        this.printScore();
+
+        this.createBoss();
         this.createEnemyArmy();
 
         //create player
@@ -73,7 +83,7 @@ class Engine {
             projectile = new Projectile(e.detail.x, e.detail.y,
                 this._ctx, this._sprites.projectileUp,
                 PLAYER_PROJECTILE_SPEED, direction, shooter);
-        } else if(e.detail.firedBy === unitTypes.boss){
+        } else if (e.detail.firedBy === unitTypes.boss) {
             const shooter = unitTypes.boss;
             const direction = 1;
             projectile = new Projectile(e.detail.x, e.detail.y,
@@ -84,7 +94,7 @@ class Engine {
         this._projectiles.push(projectile);
     }
 
-    onProjectileOut(e) {        //Remove projectile when out from the screen
+    onProjectileOut(e) { //Remove projectile when out from the screen
         const index = this._projectiles.findIndex(x => x === e.detail);
         this._projectiles.splice(index, 1);
     }
@@ -119,6 +129,11 @@ class Engine {
         this._gameObjectsArray.splice(indexObjectsArray, 1);
     }
 
+    printScore() { //Long live loose coupling and dependency injection! And encapsulation!
+        const score = document.getElementById('score');
+        score.innerHTML = 'Score: ' + this._totalScore;
+    }
+
     gameLoop(engine, ctx) {
         // Update
         engine._space.update();
@@ -132,14 +147,14 @@ class Engine {
 
         var projectilesToErase = []; //Cannot erase projectiles and enemies in the loops!
         var enemiesToErase = [];
-        engine._projectiles.forEach(function (projectile) {
+        engine._projectiles.forEach(function(projectile) {
 
             const projectileOutOfScreen = projectile.y < 0 || projectile.y > ctx.canvas.height;
             if (projectileOutOfScreen) {
                 projectilesToErase.push(projectile);
             }
 
-            engine._walls.forEach(function (wall) {
+            engine._walls.forEach(function(wall) {
                 if (projectile.hasCollidedWith(wall)) {
                     const projectileOutEvent = new CustomEvent('projectileOut', {
                         detail: projectile
@@ -156,9 +171,10 @@ class Engine {
                 }
             });
 
-            engine._enemies.forEach(function (enemy) {
+            engine._enemies.forEach(function(enemy) {
                 if (projectile.direction < 0 && projectile.hasCollidedWith(enemy)) {
-                    engine._totalScore += enemy.points;
+                    engine.totalScore += enemy.points;
+                    engine.printScore();
 
                     projectilesToErase.push(projectile);
                     enemiesToErase.push(enemy);
@@ -195,7 +211,7 @@ class Engine {
             engine.createBoss();
         }
 
-        requestAnimationFrame(function () {
+        requestAnimationFrame(function() {
             engine.gameLoop(engine, ctx);
         });
     }
@@ -239,5 +255,11 @@ class Engine {
         for (const wall of this._walls) {
             this._gameObjectsArray.push(wall);
         }
+    }
+
+    createBoss() {
+        const boss = new Boss(30, 30, this._ctx, this._sprites.boss, 2);
+        this._enemies.push(boss);
+        this._gameObjectsArray.push(boss);
     }
 }
