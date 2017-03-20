@@ -1,4 +1,4 @@
-class Bonus extends Unit {
+class Bonus extends MovableUnit {
     constructor(x, y, ctx, sprite, type) {
         super(x, y, ctx, sprite);
 
