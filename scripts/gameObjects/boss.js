@@ -6,6 +6,7 @@ class Boss extends Unit{
         this.targetX = this._ctx.canvas.width / 2;
         this.targetY = this._ctx.canvas.height / 2;
         this._timeToShoot = this._newTimeToShoot();
+        this.points = BOSS_POINTS;
     }
 
     get targetX(){
