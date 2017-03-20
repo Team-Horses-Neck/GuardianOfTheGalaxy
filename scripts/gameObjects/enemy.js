@@ -1,4 +1,4 @@
-class Enemy extends Unit {
+class Enemy extends MovableUnit {
 
     constructor(x, y, ctx, sprite, speed, points) {
         super(x, y, ctx, sprite, speed);
@@ -44,7 +44,7 @@ class Enemy extends Unit {
 
         if (this.goDown) {
             this.y += ENEMY_DOWN;
-            this._speedx = - this._speedx;
+            this._speedx = -this._speedx;
             this.x += this._speedx;
             this.goDown = false;
         }
@@ -56,12 +56,12 @@ class Enemy extends Unit {
 
         if (this._timeToShoot - now < 0) {
             this._timeToShoot = this._newTimeToShoot();
-            const fireEvent = new CustomEvent('projectileFired', { 
+            const fireEvent = new CustomEvent('projectileFired', {
                 detail: {
                     firedBy: unitTypes.enemy,
-                    x: this.x + this.width/2, 
-                    y: this.y + this.height + 1 
-                } 
+                    x: this.x + this.width / 2,
+                    y: this.y + this.height + 1
+                }
             });
             window.dispatchEvent(fireEvent);
         }

@@ -1,6 +1,6 @@
-class Boss extends Unit{
+class Boss extends MovableUnit {
 
-    constructor(x, y, ctx, sprite, speed){
+    constructor(x, y, ctx, sprite, speed) {
         super(x, y, ctx, sprite, speed);
 
         this.targetX = this._ctx.canvas.width / 2;
@@ -9,54 +9,54 @@ class Boss extends Unit{
         this.points = BOSS_POINTS;
     }
 
-    get targetX(){
+    get targetX() {
         return this._targetX;
     }
 
-    set targetX(value){
+    set targetX(value) {
         this._targetX = value;
     }
 
-    get targetY(){
+    get targetY() {
         return this._targetY;
     }
 
-    set targetY(value){
+    set targetY(value) {
         this._targetY = value;
     }
 
-    move(){
-        if (this.targetX > this.x){
+    move() {
+        if (this.targetX > this.x) {
             this.x += this.speed;
 
-            if(this.x > this.targetX){
+            if (this.x > this.targetX) {
                 this.x = this.targetX;
             }
-        } else if(this.targetX < this.x){
+        } else if (this.targetX < this.x) {
             this.x -= this.speed;
 
-            if(this.x < this.targetX){
+            if (this.x < this.targetX) {
                 this.x = this.targetX;
             }
         }
 
-        if(this.targetY > this.y){
+        if (this.targetY > this.y) {
             this.y += this.speed;
 
-            if(this.y > this.targetY){
+            if (this.y > this.targetY) {
                 this.y = this.targetY;
             }
-        } else if(this.targetY < this.y){
+        } else if (this.targetY < this.y) {
             this.y -= this.speed;
 
-            if(this.y < this.targetY){
+            if (this.y < this.targetY) {
                 this.y = this.targetY;
             }
         }
     }
 
-    update(){
-        if(this.x === this.targetX && this.y === this.targetY){
+    update() {
+        if (this.x === this.targetX && this.y === this.targetY) {
             this._getTargetPosition();
         }
 
@@ -76,7 +76,7 @@ class Boss extends Unit{
         }
     }
 
-    _getTargetPosition(){
+    _getTargetPosition() {
         let newTargetX = Math.floor(Math.random() * this._ctx.canvas.width);
         this.targetX = newTargetX;
 

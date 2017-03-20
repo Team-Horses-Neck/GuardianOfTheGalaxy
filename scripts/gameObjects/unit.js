@@ -1,11 +1,11 @@
 class Unit {
-    constructor(x, y, ctx, sprite, speed) {
-        this._ctx = ctx;
-        this._sprite = sprite;
-        this._speed = speed;
-
+    constructor(x, y, ctx, sprite) {
         this._x = x;
         this._y = y;
+
+        this._ctx = ctx;
+        this._sprite = sprite;
+
 
         this._radius = (sprite.width + sprite.height) / 4;
     }
@@ -26,18 +26,10 @@ class Unit {
         this._y = value;
     }
 
-    get speed() {
-        return this._speed;
-    }
-
-    set speed(value) {
-        this._speed = value;
-    }
-
     get width() {
         return this._sprite.width;
     }
-    
+
     get height() {
         return this._sprite.height;
     }
@@ -46,15 +38,7 @@ class Unit {
         return this._radius;
     }
 
-    update() {
-        
-    }
-
-    move() {
-
-    }
-
-    hasCollidedWith(withUnit){
+    hasCollidedWith(withUnit) {
         //formula from workshops jumping pikachu
         let self = this;
         let x1 = self.x + (self.width / 2),
@@ -72,6 +56,5 @@ class Unit {
             this._sprite,
             this.x, this.y,
             this._sprite.width, this._sprite.height);
-
     }
 }

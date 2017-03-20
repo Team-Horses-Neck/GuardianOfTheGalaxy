@@ -1,4 +1,4 @@
-class Projectile extends Unit {
+class Projectile extends MovableUnit {
     constructor(x, y, ctx, sprite, speed, direction, shooter) {
         super(x, y, ctx, sprite, speed);
 
@@ -17,11 +17,9 @@ class Projectile extends Unit {
     set direction(value) {
         if (value < 0) {
             this._direction = -1;
-        }
-        else if (value > 0) {
+        } else if (value > 0) {
             this._direction = 1;
-        }
-        else {
+        } else {
             throw new Error("Projectile speed can not be 0");
         }
     }

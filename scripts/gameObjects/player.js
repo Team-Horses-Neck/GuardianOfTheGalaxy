@@ -1,4 +1,4 @@
-class Player extends Unit {
+class Player extends MovableUnit {
     constructor(x, y, ctx, sprite) {
         super(x, y, ctx, sprite, PLAYER_SPEED);
 
