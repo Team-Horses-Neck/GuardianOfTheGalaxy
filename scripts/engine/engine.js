@@ -6,9 +6,8 @@ class Engine {
         this._ctx = ctx;
         this._sprites = sprites;
         this._totalScore = 0;
+        
         // Define game objects (player, enemies...)
-
-        //this._gameObjectsArray = [];
         this._enemies = [];
         this._projectiles = [];
         this._walls = [];
@@ -47,16 +46,12 @@ class Engine {
                     points);
 
                 this._enemies.push(enemy);
-                //this._gameObjectsArray.push(enemy);
             }
         }
     }
 
     initGame() {
         //sets the initial field
-
-        //For now - only one enemy
-
         this.printScore();
 
         this.createBoss();
@@ -70,9 +65,6 @@ class Engine {
 
         //create wall
         this.createWall(this._ctx, this._sprites);
-
-        //this._gameObjectsArray.push(player);
-        //this._gameObjectsArray.push(enemy);
     }
 
     launchNewProjectile(e) {
@@ -114,11 +106,6 @@ class Engine {
             let index = this._enemies.findIndex(x => x === e.detail[i]);
             this._enemies.splice(index, 1);
         }
-
-        // for (let i = 0; i < e.detail.length; i += 1) {
-        //     let index = this._gameObjectsArray.findIndex(x => x === e.detail[i]);
-        //     this._gameObjectsArray.splice(index, 1);
-        // }
     }
 
     onProjectilesToErase(e) {
@@ -131,8 +118,6 @@ class Engine {
     onWallDestroy(e) {
         const index = this._walls.findIndex(w => w === e.detail);
         this._walls.splice(index, 1);
-        //const indexObjectsArray = this._gameObjectsArray.findIndex(w => w === e.detail);
-        //his._gameObjectsArray.splice(indexObjectsArray, 1);
     }
 
     printScore() { //Long live loose coupling and dependency injection! And encapsulation!
@@ -145,14 +130,13 @@ class Engine {
         engine._space.update();
         engine._projectiles.forEach(u => u.move());
         engine._projectiles.forEach(u => u.update());
-        //engine._gameObjectsArray.forEach(u => u.move());
 
         engine._enemies.forEach(u => u.move());
         engine._enemies.forEach(u => u.update());
-
+        
+        //player
         engine.player.move();
         engine.player.update(this._userInput);
-        //engine._gameObjectsArray.forEach(u => u.update(this._userInput));
 
         var projectilesToErase = []; //Cannot erase projectiles and enemies in the loops!
         var enemiesToErase = [];
@@ -214,7 +198,6 @@ class Engine {
         if (this._enemies.length !== 0) {
             engine._walls.forEach(wall => wall.draw());
             engine.player.draw();
-            //engine._gameObjectsArray.forEach(u => u.draw());
             engine._projectiles.forEach(u => u.draw());
             engine._enemies.forEach(u => u.draw());
         } else {
@@ -261,15 +244,10 @@ class Engine {
             this._walls.push(new Wall(ctx, spritesDown,
                 wallStartPosWidth * i + (i - 1) * wallWidth + 2 * spriteWidth, wallStartPosHeight + 2 * spriteHeight));
         }
-
-        // for (const wall of this._walls) {
-        //     this._gameObjectsArray.push(wall);
-        // }
     }
 
     createBoss() {
         const boss = new Boss(30, 30, this._ctx, this._sprites.boss, 2);
         this._enemies.push(boss);
-        //this._gameObjectsArray.push(boss);
     }
 }
