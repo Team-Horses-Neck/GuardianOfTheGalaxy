@@ -1,23 +1,27 @@
-// Global constants
+// Player
 const PLAYER_SPEED = 4; // px/frame
-const ENEMY_SPEED = 0.5;
-const PROJECTILE_SPEED = 1;
-const BONUS_SPEED = 1;
-const PLAYER_PROJECTILE_SPEED = 5;
-const BOSS_PROJECTILE_SPEED = 3;
-const SPACE_SCROLL_SPEED = 0.3; // px/frame
 const MIN_TIME_BETWEEN_SHOTS = 600; // ms
+
+// Space background
+const SPACE_SCROLL_SPEED = 0.3; // px/frame
+
+// Projectiles
+const PROJECTILE_SPEED = 1; // px/frame
+const PLAYER_PROJECTILE_SPEED = 5; // px/frame
+const BOSS_PROJECTILE_SPEED = 3; // px/frame
+const BONUS_SPEED = 1; // px/frame
+
+// Enemies
+const ENEMY_SPEED = 0.5; // px/frame
 const ENEMY_ROWS = 4;
 const ENEMIES_PER_ROW = 5;
-//const ENEMY_HEIGHT = 30;
-//const ENEMY_WIDTH = 30;
-const ENEMY_DOWN = 40; //How much the enemies to go down on every iteration
-const ENEMY_DENSITY = 1.1; //multiplies times number of enemies on a row, times enemy width/height
+const ENEMY_DOWN = 40; // px How much the enemies to go down on every iteration
+const ENEMY_DENSITY = 1.1; // multiplies times number of enemies on a row, times enemy width/height
 const ENEMY_POINTS = 100;
 const EVIL_ENEMY_POINTS = 200;
+const BOSS_POINTS = 1000;
 
-BOSS_POINTS = 1000;
-
+// Wall
 const WALL_START_POS_WIDTH = 0.1;
 const WALL_START_POS_HEIGHT = 0.7;
 const WALL_HEALTH = 2;
