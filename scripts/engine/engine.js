@@ -8,7 +8,7 @@ class Engine {
         this._totalScore = 0;
         // Define game objects (player, enemies...)
 
-        this._gameObjectsArray = [];
+        //this._gameObjectsArray = [];
         this._enemies = [];
         this._projectiles = [];
         this._walls = [];
@@ -22,6 +22,13 @@ class Engine {
 
     set totalScore(value) {
         this._totalScore = value;
+    }
+
+    get player(){
+        return this._player;
+    }
+    set player(object){
+        this._player = object;
     }
 
     createEnemyArmy() {
@@ -40,7 +47,7 @@ class Engine {
                     points);
 
                 this._enemies.push(enemy);
-                this._gameObjectsArray.push(enemy);
+                //this._gameObjectsArray.push(enemy);
             }
         }
     }
@@ -49,7 +56,6 @@ class Engine {
         //sets the initial field
 
         //For now - only one enemy
-
 
         this.printScore();
 
@@ -60,12 +66,12 @@ class Engine {
         const guardianImage = this._sprites.guardian;
         const x = this._ctx.canvas.width / 2 - guardianImage.width / 2;
         const y = this._ctx.canvas.height - guardianImage.height;
-        const player = new Player(x, y, this._ctx, guardianImage);
+        this.player = new Player(x, y, this._ctx, guardianImage);
 
         //create wall
         this.createWall(this._ctx, this._sprites);
 
-        this._gameObjectsArray.push(player);
+        //this._gameObjectsArray.push(player);
         //this._gameObjectsArray.push(enemy);
     }
 
@@ -109,10 +115,10 @@ class Engine {
             this._enemies.splice(index, 1);
         }
 
-        for (let i = 0; i < e.detail.length; i += 1) {
-            let index = this._gameObjectsArray.findIndex(x => x === e.detail[i]);
-            this._gameObjectsArray.splice(index, 1);
-        }
+        // for (let i = 0; i < e.detail.length; i += 1) {
+        //     let index = this._gameObjectsArray.findIndex(x => x === e.detail[i]);
+        //     this._gameObjectsArray.splice(index, 1);
+        // }
     }
 
     onProjectilesToErase(e) {
@@ -125,8 +131,8 @@ class Engine {
     onWallDestroy(e) {
         const index = this._walls.findIndex(w => w === e.detail);
         this._walls.splice(index, 1);
-        const indexObjectsArray = this._gameObjectsArray.findIndex(w => w === e.detail);
-        this._gameObjectsArray.splice(indexObjectsArray, 1);
+        //const indexObjectsArray = this._gameObjectsArray.findIndex(w => w === e.detail);
+        //his._gameObjectsArray.splice(indexObjectsArray, 1);
     }
 
     printScore() { //Long live loose coupling and dependency injection! And encapsulation!
@@ -139,11 +145,14 @@ class Engine {
         engine._space.update();
         engine._projectiles.forEach(u => u.move());
         engine._projectiles.forEach(u => u.update());
-        engine._gameObjectsArray.forEach(u => u.move());
+        //engine._gameObjectsArray.forEach(u => u.move());
 
         engine._enemies.forEach(u => u.move());
         engine._enemies.forEach(u => u.update());
-        engine._gameObjectsArray.forEach(u => u.update(this._userInput));
+
+        engine.player.move();
+        engine.player.update(this._userInput);
+        //engine._gameObjectsArray.forEach(u => u.update(this._userInput));
 
         var projectilesToErase = []; //Cannot erase projectiles and enemies in the loops!
         var enemiesToErase = [];
@@ -204,7 +213,8 @@ class Engine {
         //Possible fixes
         if (this._enemies.length !== 0) {
             engine._walls.forEach(wall => wall.draw());
-            engine._gameObjectsArray.forEach(u => u.draw());
+            engine.player.draw();
+            //engine._gameObjectsArray.forEach(u => u.draw());
             engine._projectiles.forEach(u => u.draw());
             engine._enemies.forEach(u => u.draw());
         } else {
@@ -252,14 +262,14 @@ class Engine {
                 wallStartPosWidth * i + (i - 1) * wallWidth + 2 * spriteWidth, wallStartPosHeight + 2 * spriteHeight));
         }
 
-        for (const wall of this._walls) {
-            this._gameObjectsArray.push(wall);
-        }
+        // for (const wall of this._walls) {
+        //     this._gameObjectsArray.push(wall);
+        // }
     }
 
     createBoss() {
         const boss = new Boss(30, 30, this._ctx, this._sprites.boss, 2);
         this._enemies.push(boss);
-        this._gameObjectsArray.push(boss);
+        //this._gameObjectsArray.push(boss);
     }
 }
