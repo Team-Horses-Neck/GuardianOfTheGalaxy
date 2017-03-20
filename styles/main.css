@@ -6,8 +6,6 @@ html, body {
 }
 
 #game-canvas {
-	float: left;
-	padding-left: 20px;
 }
 
 #score {
