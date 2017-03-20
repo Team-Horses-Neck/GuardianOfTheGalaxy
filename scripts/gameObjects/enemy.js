@@ -8,12 +8,15 @@ class Enemy extends MovableUnit {
         this._timeToShoot = this._newTimeToShoot();
         this.goDown = false;
         this._points = points;
+        this._bonus = this.getBonus();
     }
 
     get points() {
         return this._points;
     }
-
+    get bonus() {
+        return this._bonus;
+    }
     get goDown() {
         return this._goDown;
     }
@@ -30,6 +33,19 @@ class Enemy extends MovableUnit {
         let randomPeriod = Math.floor(20000 * Math.random()) + 2000;
 
         return now + randomPeriod;
+    }
+
+    getBonus(){
+        var random =  Math.floor(Math.random() * 10);
+        if(random<=1){
+            return 'health';
+        }
+        else if(random>=9){
+            return 'points';
+        }
+        else{
+            return 'none';
+        }
     }
 
     move() {

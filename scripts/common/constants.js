@@ -2,6 +2,7 @@
 const PLAYER_SPEED = 4; // px/frame
 const ENEMY_SPEED = 0.5;
 const PROJECTILE_SPEED = 1;
+const BONUS_SPEED = 1;
 const PLAYER_PROJECTILE_SPEED = 5;
 const BOSS_PROJECTILE_SPEED = 3;
 const SPACE_SCROLL_SPEED = 0.3; // px/frame

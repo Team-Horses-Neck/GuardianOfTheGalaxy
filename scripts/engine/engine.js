@@ -11,6 +11,7 @@ class Engine {
         this._enemies = [];
         this._projectiles = [];
         this._walls = [];
+        this._bonuses = [];
 
         this.initGame();
     }
@@ -134,12 +135,15 @@ class Engine {
         engine._enemies.forEach(u => u.move());
         engine._enemies.forEach(u => u.update());
 
+        engine._bonuses.forEach(u => u.move());
+
         //player
         engine.player.move();
         engine.player.update(this._userInput);
 
         var projectilesToErase = []; //Cannot erase projectiles and enemies in the loops!
         var enemiesToErase = [];
+        var bonus;
         engine._projectiles.forEach(function(projectile) {
 
             const projectileOutOfScreen = projectile.y < 0 || projectile.y > ctx.canvas.height;
@@ -171,6 +175,17 @@ class Engine {
 
                     projectilesToErase.push(projectile);
                     enemiesToErase.push(enemy);
+
+                    if(enemy.bonus==='health'){
+                         bonus = new Bonus(enemy.x,enemy.y, engine._ctx, engine._sprites.bonusHealth,1);
+                        console.log('health');
+                        engine._bonuses.push(bonus);
+                    }
+                    else if(enemy.bonus==='points'){
+                         bonus = new Bonus(enemy.x,enemy.y, engine._ctx, engine._sprites.bonusPoint,1);
+                        console.log('points');
+                        engine._bonuses.push(bonus);
+                    }
                 }
             });
         });
@@ -200,6 +215,7 @@ class Engine {
             engine.player.draw();
             engine._projectiles.forEach(u => u.draw());
             engine._enemies.forEach(u => u.draw());
+            engine._bonuses.forEach(u => u.draw());
         } else {
             engine.createBoss();
         }

@@ -27,7 +27,8 @@ const sprites = {
     boss: loadSprite('./images/enemies/possibleBoss.png'),
     projectile: loadSprite('./images/shell-small.png'),
     projectileUp: loadSprite('./images/shell-small-up.png'),
-    spaceMoving: loadSprite('./images/space-moving.png')
+    bonusHealth: loadSprite('./images/health-bonus.png'),
+    bonusPoint: loadSprite('./images/point-bonus.png')
 
 };
 
