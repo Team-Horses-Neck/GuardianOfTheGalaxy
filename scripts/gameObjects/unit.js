@@ -56,7 +56,6 @@ class Unit {
 
     hasCollidedWith(withUnit){
         //formula from workshops jumping pikachu
-        // not tested
         let self = this;
         let x1 = self.x + (self.width / 2),
             y1 = self.y + (self.height / 2),

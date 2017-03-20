@@ -8,9 +8,32 @@
 </head>
 
 <body>
-    <div id="score"></div>
+    <!-- <div id="score"></div>-->
     <canvas id="game-canvas" width=960 height=720></canvas>
-    
+    <svg width="960" height="50" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+        <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+        <g>
+            <title>InfoField</title>
+            <rect fill="#000000" stroke="#ff7f00" stroke-width="0" x="0" y="0" width="960" height="50" id="svg_1" />
+        </g>
+        <g>
+            <title>Player-Lives-Count</title>
+            <path class="heart" d="m31.40012,10.64174c1.44078,-1.47447 3.00075,-2.77653 4.76714,-3.77918c1.92388,-1.08884 3.96907,-1.38827 6.11854,-1.09337c1.6685,0.22684 3.24336,0.71001 4.65009,1.72399c2.00688,1.44498 3.17951,3.47521 3.70305,5.96593c0.87256,4.1512 -0.2192,7.76251 -2.60703,11.04037c-1.30884,1.79205 -2.87306,3.31188 -4.40109,4.87709c-3.71369,3.81093 -7.43589,7.62187 -11.15171,11.4328c-0.77892,0.79395 -1.47696,0.77126 -2.25162,-0.02269l-13.38417,-13.74432c-2.22821,-2.27749 -4.08612,-4.84079 -4.74586,-8.12092c-0.76615,-3.76557 -0.22133,-7.29975 2.34101,-10.23055c1.37055,-1.57428 3.14546,-2.36596 5.09701,-2.79015c3.49448,-0.75765 6.56759,0.20869 9.32147,2.52248c0.84702,0.71229 1.67276,1.45178 2.54106,2.2117"
+                fill="#F00" id="svg_1" />
+            <text id="playerLivesCount" x="65" y="35" fill="white" font-family="Verdana" font-size="35">-</text>
+        </g>
+        <g>
+            <title>Player-Current-Score</title>
+            <text x="150" y="35" fill="white" font-family="Verdana" font-size="35">Score:</text>
+            <text id="playerCurrentScore" x="270" y="35" fill="white" font-family="Verdana" font-size="35"></text>
+        </g>
+        <g>
+            <title>Highest-Score</title>
+            <text x="400" y="35" fill="white" font-family="Verdana" font-size="35">High Score:</text>
+            <text id="highestScore" x="610" y="35" fill="white" font-family="Verdana" font-size="35">0000</text>
+        </g>
+
+    </svg>
     <script src="./scripts/common/constants.js"></script>
     <script src="./scripts/common/weaponTypes.js"></script>
     <script src="./scripts/common/unitTypes.js"></script>
