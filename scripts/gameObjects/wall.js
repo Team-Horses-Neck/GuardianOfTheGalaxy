@@ -1,56 +1,16 @@
-class Wall {
-    constructor(ctx, sprites, x, y) {
-        this._ctx = ctx;
-        this._health = 2;
+class Wall extends Unit {
+    constructor(x, y, ctx, sprites, health) {
+        super(x, y, ctx, sprites[0]);
+        this._health = health;
         this._sprites = sprites;
-
-        this.x = x;
-        this.y = y;
-
-        this._radius = (this.width + this.height) / 4;
-    }
-
-    get x() {
-        return this._x;
-    }
-    set x(val) {
-        this._x = val;
-    }
-
-    get y() {
-        return this._y;
-    }
-    set y(val) {
-        this._y = val;
     }
 
     get health() {
         return this._health;
     }
 
-    get width() {
-        return this._sprites[0].width;
-    }
-
-    get height() {
-        return this._sprites[0].height;
-    }
-
-    get radius() {
-        return this._radius;
-    }
-
-
     decreaseHealth() {
         this._health -= 1;
-    }
-
-    move() {
-
-    }
-
-    update() {
-
     }
 
     draw() {

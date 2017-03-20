@@ -6,7 +6,7 @@ class Engine {
         this._ctx = ctx;
         this._sprites = sprites;
         this._totalScore = 0;
-        
+
         // Define game objects (player, enemies...)
         this._enemies = [];
         this._projectiles = [];
@@ -23,10 +23,10 @@ class Engine {
         this._totalScore = value;
     }
 
-    get player(){
+    get player() {
         return this._player;
     }
-    set player(object){
+    set player(object) {
         this._player = object;
     }
 
@@ -133,7 +133,7 @@ class Engine {
 
         engine._enemies.forEach(u => u.move());
         engine._enemies.forEach(u => u.update());
-        
+
         //player
         engine.player.move();
         engine.player.update(this._userInput);
@@ -227,22 +227,22 @@ class Engine {
         const spritesDown = [sprites.wallDownHit, sprites.wallDown];
 
         for (let i = 1; i < 6; i += 1) {
-            this._walls.push(new Wall(ctx, spritesHightLeft,
-                wallStartPosWidth * i + (i - 1) * wallWidth, wallStartPosHeight));
-            this._walls.push(new Wall(ctx, spritesWall,
-                wallStartPosWidth * i + (i - 1) * wallWidth + spriteWidth, wallStartPosHeight));
-            this._walls.push(new Wall(ctx, spritesHightRight,
-                wallStartPosWidth * i + (i - 1) * wallWidth + 2 * spriteWidth, wallStartPosHeight));
-            this._walls.push(new Wall(ctx, spritesWall,
-                wallStartPosWidth * i + (i - 1) * wallWidth, wallStartPosHeight + spriteHeight));
-            this._walls.push(new Wall(ctx, spritesMiddle,
-                wallStartPosWidth * i + (i - 1) * wallWidth + spriteWidth, wallStartPosHeight + spriteHeight));
-            this._walls.push(new Wall(ctx, spritesWall,
-                wallStartPosWidth * i + (i - 1) * wallWidth + 2 * spriteWidth, wallStartPosHeight + spriteHeight));
-            this._walls.push(new Wall(ctx, spritesDown,
-                wallStartPosWidth * i + (i - 1) * wallWidth, wallStartPosHeight + 2 * spriteHeight));
-            this._walls.push(new Wall(ctx, spritesDown,
-                wallStartPosWidth * i + (i - 1) * wallWidth + 2 * spriteWidth, wallStartPosHeight + 2 * spriteHeight));
+            this._walls.push(new Wall(wallStartPosWidth * i + (i - 1) * wallWidth, wallStartPosHeight,
+                ctx, spritesHightLeft, WALL_HEALTH));
+            this._walls.push(new Wall(wallStartPosWidth * i + (i - 1) * wallWidth + spriteWidth, wallStartPosHeight,
+                ctx, spritesWall, WALL_HEALTH));
+            this._walls.push(new Wall(wallStartPosWidth * i + (i - 1) * wallWidth + 2 * spriteWidth, wallStartPosHeight,
+                ctx, spritesHightRight, WALL_HEALTH));
+            this._walls.push(new Wall(wallStartPosWidth * i + (i - 1) * wallWidth, wallStartPosHeight + spriteHeight,
+                ctx, spritesWall, WALL_HEALTH));
+            this._walls.push(new Wall(wallStartPosWidth * i + (i - 1) * wallWidth + spriteWidth,
+                wallStartPosHeight + spriteHeight, ctx, spritesMiddle, WALL_HEALTH));
+            this._walls.push(new Wall(wallStartPosWidth * i + (i - 1) * wallWidth + 2 * spriteWidth,
+                wallStartPosHeight + spriteHeight, ctx, spritesWall, WALL_HEALTH));
+            this._walls.push(new Wall(wallStartPosWidth * i + (i - 1) * wallWidth, wallStartPosHeight + 2 * spriteHeight,
+                ctx, spritesDown, WALL_HEALTH));
+            this._walls.push(new Wall(wallStartPosWidth * i + (i - 1) * wallWidth + 2 * spriteWidth,
+                wallStartPosHeight + 2 * spriteHeight, ctx, spritesDown, WALL_HEALTH));
         }
     }
 
