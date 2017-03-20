@@ -130,8 +130,8 @@ class Engine {
     }
 
     printScore() { //Long live loose coupling and dependency injection! And encapsulation!
-        const score = document.getElementById('score');
-        score.innerHTML = 'Score: ' + this._totalScore;
+        const score = document.getElementById('playerCurrentScore');
+        score.innerHTML = this._totalScore;
     }
 
     gameLoop(engine, ctx) {
