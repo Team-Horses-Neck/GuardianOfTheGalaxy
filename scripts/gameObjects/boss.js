@@ -78,9 +78,22 @@ class Boss extends MovableUnit {
 
     _getTargetPosition() {
         let newTargetX = Math.floor(Math.random() * this._ctx.canvas.width);
+        if(newTargetX > 835){
+            newTargetX = 835;
+        }
+        if(newTargetX < 30){
+            newTargetX = 30;
+        }
         this.targetX = newTargetX;
 
         let newTargetY = Math.floor(Math.random() * this._ctx.canvas.height);
+        console.log(this._ctx.canvas.height);
+        if(newTargetY > 500){
+            newTargetY = 500;
+        }
+        if(newTargetY < 30){
+            newTargetY = 30;
+        }
         this.targetY = newTargetY;
     }
 
