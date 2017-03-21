@@ -30,7 +30,8 @@ class Enemy extends MovableUnit {
         now = now.getTime();
 
 
-        let randomPeriod = Math.floor(20000 * Math.random()) + 2000;
+        let randomPeriod = Math.floor(ENEMY_MAXIMAL_FIRING_INTERVAL * Math.random()) + 
+                ENEMY_MINIMAL_FIRING_INTERVAL;
 
         return now + randomPeriod;
     }

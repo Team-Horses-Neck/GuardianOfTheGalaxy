@@ -16,10 +16,12 @@ const ENEMY_SPEED = 0.5; // px/frame
 const ENEMY_ROWS = 4;
 const ENEMIES_PER_ROW = 5;
 const ENEMY_DOWN = 40; // px How much the enemies to go down on every iteration
-const ENEMY_DENSITY = 1.1; // multiplies times number of enemies on a row, times enemy width/height
+const ENEMY_DENSITY = 1.3; // multiplies times number of enemies on a row, times enemy width/height
 const ENEMY_POINTS = 100;
 const EVIL_ENEMY_POINTS = 200;
 const BOSS_POINTS = 1000;
+const ENEMY_MAXIMAL_FIRING_INTERVAL = 30000;
+const ENEMY_MINIMAL_FIRING_INTERVAL = 4000;
 
 // Wall
 const WALL_START_POS_WIDTH = 0.1;
