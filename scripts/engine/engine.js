@@ -144,14 +144,9 @@ class Engine {
         var projectilesToErase = []; //Cannot erase projectiles and enemies in the loops!
         var enemiesToErase = [];
         var bonus;
-        engine._projectiles.forEach(function(projectile) {
+        engine._projectiles.forEach(function (projectile) {
 
-            const projectileOutOfScreen = projectile.y < 0 || projectile.y > ctx.canvas.height;
-            if (projectileOutOfScreen) {
-                projectilesToErase.push(projectile);
-            }
-
-            engine._walls.forEach(function(wall) {
+            engine._walls.forEach(function (wall) {
                 if (projectile.hasCollidedWith(wall)) {
                     const projectileOutEvent = new CustomEvent('projectileOut', {
                         detail: projectile
@@ -168,26 +163,34 @@ class Engine {
                 }
             });
 
-            engine._enemies.forEach(function(enemy) {
-                if (projectile.direction < 0 && projectile.hasCollidedWith(enemy)) {
-                    engine.totalScore += enemy.points;
-                    engine.printScore();
+            const projectileGoingUp = projectile.direction < 0;
+            if (projectileGoingUp) {
+                engine._enemies.forEach(function (enemy) {
+                    if (projectile.hasCollidedWith(enemy)) {
+                        engine.totalScore += enemy.points;
+                        engine.printScore();
 
-                    projectilesToErase.push(projectile);
-                    enemiesToErase.push(enemy);
+                        projectilesToErase.push(projectile);
+                        enemiesToErase.push(enemy);
 
-                    if(enemy.bonus==='health'){
-                         bonus = new Bonus(enemy.x,enemy.y, engine._ctx, engine._sprites.bonusHealth,1);
-                        console.log('health');
-                        engine._bonuses.push(bonus);
+                        if (enemy.bonus === 'health') {
+                            bonus = new Bonus(enemy.x, enemy.y, engine._ctx, engine._sprites.bonusHealth, 1);
+                            console.log('health');
+                            engine._bonuses.push(bonus);
+                        }
+                        else if (enemy.bonus === 'points') {
+                            bonus = new Bonus(enemy.x, enemy.y, engine._ctx, engine._sprites.bonusPoint, 1);
+                            console.log('points');
+                            engine._bonuses.push(bonus);
+                        }
                     }
-                    else if(enemy.bonus==='points'){
-                         bonus = new Bonus(enemy.x,enemy.y, engine._ctx, engine._sprites.bonusPoint,1);
-                        console.log('points');
-                        engine._bonuses.push(bonus);
-                    }
-                }
-            });
+                });
+            }
+
+            const projectileOutOfScreen = projectile.y < 0 || projectile.y > ctx.canvas.height;
+            if (projectileOutOfScreen) {
+                projectilesToErase.push(projectile);
+            }
         });
 
         if (enemiesToErase.length > 0) {
@@ -220,7 +223,7 @@ class Engine {
             engine.createBoss();
         }
 
-        requestAnimationFrame(function() {
+        requestAnimationFrame(function () {
             engine.gameLoop(engine, ctx);
         });
     }
