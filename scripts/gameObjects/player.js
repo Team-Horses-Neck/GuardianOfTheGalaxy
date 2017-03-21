@@ -26,8 +26,7 @@ class Player extends MovableUnit {
     }
 
     _shootProjectile() {
-        const projectileWidth = 11;
-        const offsetX = this.width / 2 - projectileWidth / 2;
+        const offsetX = this.width / 2 - PROJECTILE_WIDTH / 2;
         const fireEvent = new CustomEvent('projectileFired', {
             detail: {
                 firedBy: unitTypes.player,

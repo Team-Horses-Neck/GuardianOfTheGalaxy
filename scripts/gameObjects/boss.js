@@ -62,13 +62,13 @@ class Boss extends MovableUnit {
 
         let now = new Date();
         now = now.getTime();
-
+        const offsetX = this.width / 2 - PROJECTILE_WIDTH / 2;
         if (this._timeToShoot - now < 0) {
             this._timeToShoot = this._newTimeToShoot();
             const fireEvent = new CustomEvent('projectileFired', {
                 detail: {
                     firedBy: unitTypes.boss,
-                    x: this.x,
+                    x: this.x + offsetX,
                     y: this.y
                 }
             });
