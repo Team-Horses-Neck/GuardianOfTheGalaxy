@@ -93,11 +93,6 @@ class Engine {
         this._projectiles.push(projectile);
     }
 
-    onProjectileOut(e) { //Remove projectile when out from the screen
-        const index = this._projectiles.findIndex(x => x === e.detail);
-        this._projectiles.splice(index, 1);
-    }
-
     onEnemyGoDown() {
         this._enemies.forEach(x => x.goDown = true);
     }
@@ -116,9 +111,11 @@ class Engine {
         }
     }
 
-    onWallDestroy(e) {
-        const index = this._walls.findIndex(w => w === e.detail);
-        this._walls.splice(index, 1);
+    onWallstoErase(e) {
+        for (let i = 0; i < e.detail.length; i += 1) {
+            const index = this._walls.findIndex(w => w === e.detail[i]);
+            this._walls.splice(index, 1);
+        }
     }
 
     printScore() { //Long live loose coupling and dependency injection! And encapsulation!
@@ -141,24 +138,19 @@ class Engine {
         engine.player.move();
         engine.player.update(this._userInput);
 
-        var projectilesToErase = []; //Cannot erase projectiles and enemies in the loops!
-        var enemiesToErase = [];
-        var bonus;
+        const projectilesToErase = []; //Cannot erase projectiles and enemies in the loops!
+        const enemiesToErase = [];
+        const wallsToErase = [];
+
         engine._projectiles.forEach(function(projectile) {
 
             engine._walls.forEach(function(wall) {
                 if (projectile.hasCollidedWith(wall)) {
-                    const projectileOutEvent = new CustomEvent('projectileOut', {
-                        detail: projectile
-                    });
-                    window.dispatchEvent(projectileOutEvent);
+                    projectilesToErase.push(projectile);
 
                     wall.decreaseHealth();
                     if (wall.health === 0) {
-                        const destroyWallEvent = new CustomEvent('destroyWall', {
-                            detail: wall
-                        });
-                        window.dispatchEvent(destroyWallEvent);
+                        wallsToErase.push(wall);
                     }
                 }
             });
@@ -174,12 +166,11 @@ class Engine {
                         enemiesToErase.push(enemy);
 
                         if (enemy.bonus === 'health') {
-                            bonus = new Bonus(enemy.x, enemy.y, engine._ctx, engine._sprites.bonusHealth, 1);
+                            const bonus = new Bonus(enemy.x, enemy.y, engine._ctx, engine._sprites.bonusHealth, 1);
                             console.log('health');
                             engine._bonuses.push(bonus);
-                        }
-                        else if (enemy.bonus === 'points') {
-                            bonus = new Bonus(enemy.x, enemy.y, engine._ctx, engine._sprites.bonusPoint, 1);
+                        } else if (enemy.bonus === 'points') {
+                            const bonus = new Bonus(enemy.x, enemy.y, engine._ctx, engine._sprites.bonusPoint, 1);
                             console.log('points');
                             engine._bonuses.push(bonus);
                         }
@@ -192,6 +183,13 @@ class Engine {
                 projectilesToErase.push(projectile);
             }
         });
+
+        if (wallsToErase.length > 0) {
+            const wallsToEraseEvent = new CustomEvent('wallsToErase', {
+                detail: wallsToErase
+            });
+            window.dispatchEvent(wallsToEraseEvent);
+        }
 
         if (enemiesToErase.length > 0) {
             const enemiesToEraseEvent = new CustomEvent('enemiesToErase', {
