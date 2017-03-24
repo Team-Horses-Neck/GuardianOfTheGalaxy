@@ -5,7 +5,6 @@ class Engine {
 
         this._ctx = ctx;
         this._sprites = sprites;
-        this._totalScore = 0;
 
         // Define game objects (player, enemies...)
         this._enemies = [];
@@ -16,14 +15,6 @@ class Engine {
         this._gameOn = true;
 
         this.initGame();
-    }
-
-    get totalScore() {
-        return this._totalScore;
-    }
-
-    set totalScore(value) {
-        this._totalScore = value;
     }
 
     get player() {
@@ -54,12 +45,6 @@ class Engine {
     }
 
     initGame() {
-        //sets the initial field
-        this.printScore();
-
-        this.createBoss();
-        this.createEnemyArmy();
-
         //create player
         const guardianImage = this._sprites.guardian;
         const x = this._ctx.canvas.width / 2 - guardianImage.width / 2;
@@ -68,6 +53,12 @@ class Engine {
 
         //create wall
         this.createWall(this._ctx, this._sprites);
+
+        this.createBoss();
+        this.createEnemyArmy();
+
+        //sets the initial field
+        this.printPlayerData();
     }
 
     launchNewProjectile(e) {
@@ -120,9 +111,12 @@ class Engine {
         }
     }
 
-    printScore() { //Long live loose coupling and dependency injection! And encapsulation!
+    printPlayerData() { //Long live loose coupling and dependency injection! And encapsulation!
         const score = document.getElementById('playerCurrentScore');
-        score.innerHTML = this._totalScore;
+        score.innerHTML = this.player.totalScore;
+
+        const playerLives = document.getElementById('playerLivesCount');
+        playerLives.innerHTML = this.player.playerLifes;
     }
 
     gameLoop(engine, ctx) {
@@ -161,8 +155,7 @@ class Engine {
             if (projectileGoingUp) {
                 engine._enemies.forEach(function(enemy) {
                     if (projectile.hasCollidedWith(enemy)) {
-                        engine.totalScore += enemy.points;
-                        engine.printScore();
+                        engine.player.totalScore += enemy.points;
 
                         projectilesToErase.push(projectile);
                         enemiesToErase.push(enemy);
@@ -179,8 +172,12 @@ class Engine {
                     }
                 });
             } else {
-                if (projectile.hasCollidedWith(engine._player)) {
-                    engine._gameOn = false;
+                if (projectile.hasCollidedWith(engine.player)) {
+                    projectilesToErase.push(projectile);
+                    engine.player.playerLifes -= 1;
+                    if (engine.player.playerLifes < 1) {
+                        engine._gameOn = false;
+                    }
                 }
             }
 
@@ -226,6 +223,8 @@ class Engine {
         engine._enemies.forEach(u => u.draw());
         engine._bonuses.forEach(u => u.draw());
 
+        engine.printPlayerData();
+
         if (engine._gameOn) {
             requestAnimationFrame(function() {
                 engine.gameLoop(engine, ctx);
@@ -233,7 +232,7 @@ class Engine {
         } else {
             ctx.fillStyle = 'orangered';
             ctx.font = "40px Arial";
-            ctx.fillText("Game Over",ctx.canvas.width/2 - 100, ctx.canvas.height/2);
+            ctx.fillText("Game Over", ctx.canvas.width / 2 - 100, ctx.canvas.height / 2);
         }
 
     }

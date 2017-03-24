@@ -6,6 +6,25 @@ class Player extends MovableUnit {
         this._lastProjectileShotTime = new Date(0);
         this._currWeapon = weaponTypes.projectiles;
         this._lasersOn = false;
+
+        this.playerLifes = PLAYER_START_LIFE;
+        this._totalScore = 0;
+    }
+
+    get playerLifes() {
+        return this._playerLifes;
+    }
+
+    set playerLifes(value) {
+        this._playerLifes = value;
+    }
+
+    get totalScore() {
+        return this._totalScore;
+    }
+
+    set totalScore(value) {
+        this._totalScore = value;
     }
 
     get _laserProperties() {
@@ -67,8 +86,7 @@ class Player extends MovableUnit {
         // colide with canvas edges
         if (this.x < 0) {
             this.x = 0;
-        }
-        else if (this.x + this.width > this._ctx.canvas.width) {
+        } else if (this.x + this.width > this._ctx.canvas.width) {
             this.x = this._ctx.canvas.width - this.width;
         }
 

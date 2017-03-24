@@ -1,5 +1,6 @@
 // Player
 const PLAYER_SPEED = 4; // px/frame
+const PLAYER_START_LIFE = 3;
 const MIN_TIME_BETWEEN_SHOTS = 600; // ms
 
 // Space background
