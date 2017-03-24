@@ -112,6 +112,12 @@ class Engine {
             this._projectiles.splice(index, 1);
         }
     }
+    onBonusesToErase(e) {
+        for (let i = 0; i < e.detail.length; i += 1) {
+            let index = this._bonuses.findIndex(x => x === e.detail[i]);
+            this._bonuses.splice(index, 1);
+        }
+    }
 
     onWallstoErase(e) {
         for (let i = 0; i < e.detail.length; i += 1) {
@@ -136,6 +142,9 @@ class Engine {
 
         engine._bonuses.forEach(u => u.move());
 
+        // Update lives
+        document.getElementById('playerLivesCount').innerHTML = engine.player.lives;
+
         //player
         engine.player.move();
         engine.player.update(this._userInput);
@@ -143,6 +152,7 @@ class Engine {
         const projectilesToErase = []; //Cannot erase projectiles and enemies in the loops!
         const enemiesToErase = [];
         const wallsToErase = [];
+        const bonusesToErase = [];
 
         engine._projectiles.forEach(function(projectile) {
 
@@ -168,25 +178,49 @@ class Engine {
                         enemiesToErase.push(enemy);
 
                         if (enemy.bonus === 'health') {
-                            const bonus = new Bonus(enemy.x, enemy.y, engine._ctx, engine._sprites.bonusHealth, 1);
-                            console.log('health');
+                            const bonus = new Bonus(enemy.x, enemy.y, engine._ctx, engine._sprites.bonusHealth, 'health');
                             engine._bonuses.push(bonus);
                         } else if (enemy.bonus === 'points') {
-                            const bonus = new Bonus(enemy.x, enemy.y, engine._ctx, engine._sprites.bonusPoint, 1);
-                            console.log('points');
+                            const bonus = new Bonus(enemy.x, enemy.y, engine._ctx, engine._sprites.bonusPoint, 'points');
                             engine._bonuses.push(bonus);
                         }
                     }
                 });
             } else {
                 if (projectile.hasCollidedWith(engine._player)) {
-                    engine._gameOn = false;
+                    projectilesToErase.push(projectile);
+                    engine._player.lives -= 1;
+
+                    if(engine._player.lives < 0){
+                        engine._gameOn = false;
+                    }
                 }
             }
 
             const projectileOutOfScreen = projectile.y < 0 || projectile.y > ctx.canvas.height;
             if (projectileOutOfScreen) {
                 projectilesToErase.push(projectile);
+            }
+        });
+
+        engine._bonuses.forEach(function(bonus) {
+            if(bonus.hasCollidedWith(engine.player)) {
+                if(bonus.type==='health'){
+                    engine.player.lives++;
+                }
+
+                if(bonus.type==='points'){
+                    engine.totalScore += BONUS_POINTS_VALUE;
+                    engine.printScore();
+                }
+
+                bonusesToErase.push(bonus);
+            }
+            else{
+                const bonusOutOfScreen = bonus.y > ctx.canvas.height;
+                if (bonusOutOfScreen) {
+                    bonusesToErase.push(bonus);
+                }
             }
         });
 
@@ -211,6 +245,12 @@ class Engine {
             window.dispatchEvent(projectilesToEraseEvent);
         }
 
+        if (bonusesToErase.length > 0) {
+            const bonusesToEraseEvent = new CustomEvent('bonusesToErase', {
+                detail: bonusesToErase
+            });
+            window.dispatchEvent(bonusesToEraseEvent);
+        }
 
         // Draw
         ctx.clearAll();

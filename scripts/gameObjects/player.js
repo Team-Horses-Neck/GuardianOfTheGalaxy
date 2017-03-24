@@ -6,6 +6,15 @@ class Player extends MovableUnit {
         this._lastProjectileShotTime = new Date(0);
         this._currWeapon = weaponTypes.projectiles;
         this._lasersOn = false;
+        this._lives = 3;
+    }
+
+    get lives(){
+        return this._lives;
+    }
+
+    set lives(value){
+        this._lives = value;
     }
 
     get _laserProperties() {
