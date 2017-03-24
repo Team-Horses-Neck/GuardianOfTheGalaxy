@@ -111,6 +111,13 @@ class Engine {
         }
     }
 
+    onBonustoErase(e) {
+        for (let i = 0; i < e.detail.length; i += 1) {
+            const index = this._bonuses.findIndex(b => b === e.detail[i]);
+            this._bonuses.splice(index, 1);
+        }
+    }
+
     printPlayerData() { //Long live loose coupling and dependency injection! And encapsulation!
         const score = document.getElementById('playerCurrentScore');
         score.innerHTML = this.player.totalScore;
@@ -161,12 +168,11 @@ class Engine {
                         enemiesToErase.push(enemy);
 
                         if (enemy.bonus === 'health') {
-                            const bonus = new Bonus(enemy.x, enemy.y, engine._ctx, engine._sprites.bonusHealth, 1);
-                            console.log('health');
+                            const bonus = new Bonus(enemy.x, enemy.y, engine._ctx, engine._sprites.bonusHealth, 'health');
                             engine._bonuses.push(bonus);
                         } else if (enemy.bonus === 'points') {
-                            const bonus = new Bonus(enemy.x, enemy.y, engine._ctx, engine._sprites.bonusPoint, 1);
-                            console.log('points');
+                            const bonusPoints = (Math.random() * 1000) | 0;
+                            const bonus = new PointBonus(enemy.x, enemy.y, engine._ctx, engine._sprites.bonusPoint, 'points', bonusPoints);
                             engine._bonuses.push(bonus);
                         }
                     }
@@ -184,6 +190,18 @@ class Engine {
             const projectileOutOfScreen = projectile.y < 0 || projectile.y > ctx.canvas.height;
             if (projectileOutOfScreen) {
                 projectilesToErase.push(projectile);
+            }
+        });
+
+        const bonusToErase = [];
+        this._bonuses.forEach(function(bonus) {
+            if (bonus.hasCollidedWith(engine.player)) {
+                if (bonus.type === 'health') {
+                    engine.player.playerLifes += 1;
+                } else if (bonus.type === 'points') {
+                    engine.player.totalScore += bonus.points;
+                }
+                bonusToErase.push(bonus);
             }
         });
 
@@ -206,6 +224,13 @@ class Engine {
                 detail: projectilesToErase
             });
             window.dispatchEvent(projectilesToEraseEvent);
+        }
+
+        if (bonusToErase.length > 0) {
+            const bonusToEraseEvent = new CustomEvent('bonusToErase', {
+                detail: bonusToErase
+            });
+            window.dispatchEvent(bonusToEraseEvent);
         }
 
 

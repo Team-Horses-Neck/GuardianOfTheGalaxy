@@ -52,5 +52,7 @@ window.addEventListener('load', function() {
 
     window.addEventListener('wallsToErase', (e) => engine.onWallstoErase(e));
 
+    window.addEventListener('bonusToErase', (e) => engine.onBonustoErase(e));
+
     engine.gameLoop(engine, ctx);
 });
