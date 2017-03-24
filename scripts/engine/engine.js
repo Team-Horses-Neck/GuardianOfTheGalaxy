@@ -103,6 +103,12 @@ class Engine {
             this._projectiles.splice(index, 1);
         }
     }
+    onBonusesToErase(e) {
+        for (let i = 0; i < e.detail.length; i += 1) {
+            let index = this._bonuses.findIndex(x => x === e.detail[i]);
+            this._bonuses.splice(index, 1);
+        }
+    }
 
     onWallstoErase(e) {
         for (let i = 0; i < e.detail.length; i += 1) {
@@ -111,19 +117,12 @@ class Engine {
         }
     }
 
-    onBonustoErase(e) {
-        for (let i = 0; i < e.detail.length; i += 1) {
-            const index = this._bonuses.findIndex(b => b === e.detail[i]);
-            this._bonuses.splice(index, 1);
-        }
-    }
-
     printPlayerData() { //Long live loose coupling and dependency injection! And encapsulation!
         const score = document.getElementById('playerCurrentScore');
         score.innerHTML = this.player.totalScore;
 
         const playerLives = document.getElementById('playerLivesCount');
-        playerLives.innerHTML = this.player.playerLifes;
+        playerLives.innerHTML = this.player.lives;
     }
 
     gameLoop(engine, ctx) {
@@ -136,6 +135,9 @@ class Engine {
         engine._enemies.forEach(u => u.update());
 
         engine._bonuses.forEach(u => u.move());
+
+        // Update lives
+        document.getElementById('playerLivesCount').innerHTML = engine.player.lives;
 
         //player
         engine.player.move();
@@ -180,8 +182,8 @@ class Engine {
             } else {
                 if (projectile.hasCollidedWith(engine.player)) {
                     projectilesToErase.push(projectile);
-                    engine.player.playerLifes -= 1;
-                    if (engine.player.playerLifes < 1) {
+                    engine.player.lives -= 1;
+                    if (engine.player.lives < 1) {
                         engine._gameOn = false;
                     }
                 }
@@ -193,15 +195,24 @@ class Engine {
             }
         });
 
-        const bonusToErase = [];
+
+        const bonusesToErase = [];
         this._bonuses.forEach(function(bonus) {
             if (bonus.hasCollidedWith(engine.player)) {
                 if (bonus.type === 'health') {
-                    engine.player.playerLifes += 1;
-                } else if (bonus.type === 'points') {
+                    engine.player.lives += 1;
+                }
+
+                if (bonus.type === 'points') {
                     engine.player.totalScore += bonus.points;
                 }
-                bonusToErase.push(bonus);
+
+                bonusesToErase.push(bonus);
+            } else {
+                const bonusOutOfScreen = bonus.y > ctx.canvas.height;
+                if (bonusOutOfScreen) {
+                    bonusesToErase.push(bonus);
+                }
             }
         });
 
@@ -226,13 +237,12 @@ class Engine {
             window.dispatchEvent(projectilesToEraseEvent);
         }
 
-        if (bonusToErase.length > 0) {
-            const bonusToEraseEvent = new CustomEvent('bonusToErase', {
-                detail: bonusToErase
+        if (bonusesToErase.length > 0) {
+            const bonusesToEraseEvent = new CustomEvent('bonusesToErase', {
+                detail: bonusesToErase
             });
-            window.dispatchEvent(bonusToEraseEvent);
+            window.dispatchEvent(bonusesToEraseEvent);
         }
-
 
         // Draw
         ctx.clearAll();

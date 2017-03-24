@@ -49,10 +49,9 @@ window.addEventListener('load', function() {
     window.addEventListener('enemyGoDown', (e) => engine.onEnemyGoDown(e));
     window.addEventListener('enemiesToErase', (e) => engine.onEnemiesToErase(e));
     window.addEventListener('projectilesToErase', (e) => engine.onProjectilesToErase(e));
+    window.addEventListener('bonusesToErase', (e) => engine.onBonusesToErase(e));
 
     window.addEventListener('wallsToErase', (e) => engine.onWallstoErase(e));
-
-    window.addEventListener('bonusToErase', (e) => engine.onBonustoErase(e));
 
     engine.gameLoop(engine, ctx);
 });

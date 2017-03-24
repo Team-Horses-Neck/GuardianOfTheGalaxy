@@ -7,16 +7,16 @@ class Player extends MovableUnit {
         this._currWeapon = weaponTypes.projectiles;
         this._lasersOn = false;
 
-        this.playerLifes = PLAYER_START_LIFE;
+        this.lives = PLAYER_START_LIFE;
         this._totalScore = 0;
     }
 
-    get playerLifes() {
-        return this._playerLifes;
+    get lives() {
+        return this._lives;
     }
 
-    set playerLifes(value) {
-        this._playerLifes = value;
+    set lives(value) {
+        this._lives = value;
     }
 
     get totalScore() {
@@ -25,6 +25,7 @@ class Player extends MovableUnit {
 
     set totalScore(value) {
         this._totalScore = value;
+
     }
 
     get _laserProperties() {
