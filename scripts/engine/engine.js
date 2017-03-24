@@ -13,6 +13,8 @@ class Engine {
         this._walls = [];
         this._bonuses = [];
 
+        this._gameOn = true;
+
         this.initGame();
     }
 
@@ -176,6 +178,10 @@ class Engine {
                         }
                     }
                 });
+            } else {
+                if (projectile.hasCollidedWith(engine._player)) {
+                    engine._gameOn = false;
+                }
             }
 
             const projectileOutOfScreen = projectile.y < 0 || projectile.y > ctx.canvas.height;
@@ -220,9 +226,16 @@ class Engine {
         engine._enemies.forEach(u => u.draw());
         engine._bonuses.forEach(u => u.draw());
 
-        requestAnimationFrame(function() {
-            engine.gameLoop(engine, ctx);
-        });
+        if (engine._gameOn) {
+            requestAnimationFrame(function() {
+                engine.gameLoop(engine, ctx);
+            });
+        } else {
+            ctx.fillStyle = 'orangered';
+            ctx.font = "40px Arial";
+            ctx.fillText("Game Over",ctx.canvas.width/2 - 100, ctx.canvas.height/2);
+        }
+
     }
 
     createWall(ctx, sprites) {
