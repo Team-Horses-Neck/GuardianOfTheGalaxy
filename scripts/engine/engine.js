@@ -144,9 +144,9 @@ class Engine {
         var projectilesToErase = []; //Cannot erase projectiles and enemies in the loops!
         var enemiesToErase = [];
         var bonus;
-        engine._projectiles.forEach(function (projectile) {
+        engine._projectiles.forEach(function(projectile) {
 
-            engine._walls.forEach(function (wall) {
+            engine._walls.forEach(function(wall) {
                 if (projectile.hasCollidedWith(wall)) {
                     const projectileOutEvent = new CustomEvent('projectileOut', {
                         detail: projectile
@@ -165,7 +165,7 @@ class Engine {
 
             const projectileGoingUp = projectile.direction < 0;
             if (projectileGoingUp) {
-                engine._enemies.forEach(function (enemy) {
+                engine._enemies.forEach(function(enemy) {
                     if (projectile.hasCollidedWith(enemy)) {
                         engine.totalScore += enemy.points;
                         engine.printScore();
@@ -213,17 +213,16 @@ class Engine {
         engine._space.draw();
 
         //Possible fixes
-        if (this._enemies.length !== 0) {
-            engine._walls.forEach(wall => wall.draw());
-            engine.player.draw();
-            engine._projectiles.forEach(u => u.draw());
-            engine._enemies.forEach(u => u.draw());
-            engine._bonuses.forEach(u => u.draw());
-        } else {
+        if (this._enemies.length === 0) {
             engine.createBoss();
         }
+        engine._walls.forEach(wall => wall.draw());
+        engine.player.draw();
+        engine._projectiles.forEach(u => u.draw());
+        engine._enemies.forEach(u => u.draw());
+        engine._bonuses.forEach(u => u.draw());
 
-        requestAnimationFrame(function () {
+        requestAnimationFrame(function() {
             engine.gameLoop(engine, ctx);
         });
     }

@@ -30,21 +30,21 @@ class Enemy extends MovableUnit {
         now = now.getTime();
 
 
-        let randomPeriod = Math.floor(ENEMY_MAXIMAL_FIRING_INTERVAL * Math.random()) + 
-                ENEMY_MINIMAL_FIRING_INTERVAL;
+        let randomPeriod = Math.floor(ENEMY_MAXIMAL_FIRING_INTERVAL * Math.random()) +
+            ENEMY_MINIMAL_FIRING_INTERVAL;
 
         return now + randomPeriod;
     }
 
-    getBonus(){
-        var random =  Math.floor(Math.random() * 10);
-        if(random<=1){
+    getBonus() {
+        var random = Math.floor(Math.random() * 10);
+        if (random <= 1) {
             return 'health';
         }
-        else if(random>=9){
+        else if (random >= 9) {
             return 'points';
         }
-        else{
+        else {
             return 'none';
         }
     }
