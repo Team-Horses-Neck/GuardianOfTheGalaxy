@@ -12,10 +12,11 @@
   * Bonuses
   * Walls
 * Health and score HUD
+* Save high-scores in local storage (maybe on a server)
 
 ## TODO Features
 * Scoring system
-* Save high-scores in local storage (maybe on a server)
+
 
 For testing purpose:
 * !! WHEN ON RAWGIT - type ctrl + F5 to get latest commits to apply
