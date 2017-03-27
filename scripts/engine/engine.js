@@ -123,6 +123,14 @@ class Engine {
 
         const playerLives = document.getElementById('playerLivesCount');
         playerLives.innerHTML = this.player.lives;
+
+        if (this.player.totalScore >= 0 && this.player.totalScore >= +(localStorage.getItem('highScore'))) {
+            localStorage.setItem('highScore', this.player.totalScore.toString());
+        }
+        
+        const highestScore = document.getElementById('highestScore');
+        highestScore.innerHTML = localStorage.getItem('highScore');
+        //localStorage.clear(); in case of clearing
     }
 
     gameLoop(engine, ctx) {
