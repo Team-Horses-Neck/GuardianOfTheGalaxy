@@ -199,6 +199,16 @@ class Engine {
                     projectilesToErase.push(projectile);
                     engine.player.lives -= 1;
                     if (engine.player.lives < 1) {
+                        let name = prompt("Please enter your name");
+                        if (name === null) {
+                            name='Anonymous';
+                        }
+                        let currentPlayer = {
+                            name:name,
+                            score:engine.player.totalScore
+                        };
+                        highScore.player.push(currentPlayer);
+                        PrintScore();
                         engine._isGameOver = true;
                     }
                 }
