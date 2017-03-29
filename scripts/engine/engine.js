@@ -258,6 +258,7 @@ class Engine {
 
         //Possible fixes
         if (this._enemies.length === 0) {
+            engine.createEnemyArmy();
             engine.createBoss();
         }
         engine._walls.forEach(wall => wall.draw());
@@ -276,6 +277,7 @@ class Engine {
             ctx.fillStyle = 'orangered';
             ctx.font = "40px Arial";
             ctx.fillText("Game Over", ctx.canvas.width / 2 - 100, ctx.canvas.height / 2);
+            ctx.fillText("Restart", ctx.canvas.width / 2 - 65, ctx.canvas.height / 2 + 50);
         }
 
     }
