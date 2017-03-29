@@ -69,7 +69,7 @@ class Boss extends MovableUnit {
                 detail: {
                     firedBy: unitTypes.boss,
                     x: this.x + offsetX,
-                    y: this.y
+                    y: this.y + this.height
                 }
             });
             window.dispatchEvent(fireEvent);
@@ -78,21 +78,21 @@ class Boss extends MovableUnit {
 
     _getTargetPosition() {
         let newTargetX = Math.floor(Math.random() * this._ctx.canvas.width);
-        if(newTargetX > 835){
-            newTargetX = 835;
+        if (newTargetX > this._ctx.canvas.width - this.width) {
+            newTargetX = this._ctx.canvas.width - this.width;
         }
-        if(newTargetX < 30){
-            newTargetX = 30;
+        if (newTargetX < this.width) {
+            newTargetX = this.width;
         }
         this.targetX = newTargetX;
 
         let newTargetY = Math.floor(Math.random() * this._ctx.canvas.height);
 
-        if(newTargetY > 500){
-            newTargetY = 500;
+        if (newTargetY > this._ctx.canvas.height-this.height) {
+            newTargetY = this._ctx.canvas.height-this.height;
         }
-        if(newTargetY < 30){
-            newTargetY = 30;
+        if (newTargetY < this.height) {
+            newTargetY = this.height;
         }
         this.targetY = newTargetY;
     }

@@ -1,3 +1,8 @@
+const CANVAS_BASE_WIDTH = 960;
+const CANVAS_BASE_HEIGHT = 710;
+const SIDE_FIELDS_PERCENT = 15;
+const DOWN_FIELD_PERCENT = 10;
+
 // Player
 const PLAYER_SPEED = 4; // px/frame
 const PLAYER_START_LIFE = 3;
@@ -13,7 +18,7 @@ const BOSS_PROJECTILE_SPEED = 3; // px/frame
 const BONUS_SPEED = 1; // px/frame
 const PROJECTILE_WIDTH = 11;
 // Enemies
-const ENEMY_SPEED = 0.5; // px/frame
+var ENEMY_SPEED = 0.5; // px/frame
 const ENEMY_ROWS = 4;
 const ENEMIES_PER_ROW = 5;
 const ENEMY_DOWN = 40; // px How much the enemies to go down on every iteration

@@ -231,6 +231,14 @@ class Engine {
             }
         });
 
+        //for small enemy and boss collison with player 
+        engine._enemies.forEach(function(enemy) {
+            if (enemy.hasCollidedWith(engine.player)){
+                engine._gameOn = false;
+            }
+        });
+
+        
         if (wallsToErase.length > 0) {
             const wallsToEraseEvent = new CustomEvent('wallsToErase', {
                 detail: wallsToErase
@@ -265,6 +273,8 @@ class Engine {
 
         //Possible fixes
         if (this._enemies.length === 0) {
+            ENEMY_SPEED += 0.5;
+            engine.createEnemyArmy();
             engine.createBoss();
         }
         engine._walls.forEach(wall => wall.draw());
@@ -327,10 +337,11 @@ class Engine {
     }
 
     createBoss() {
-        const boss = new Boss(30, 30, this._ctx, this._sprites.boss, 2);
+        const startX = Math.random() * (this._ctx.canvas.width - 0) | 0;
+        const startY = Math.random() * (this._ctx.canvas.height - 0) | 0;
+        const boss = new Boss(startX, startY, this._ctx, this._sprites.boss, 2);
         this._enemies.push(boss);
     }
-
 
     pauseGame(ctx) {
 
