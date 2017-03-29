@@ -5,6 +5,45 @@ html, body {
     background-color: black;
 }
 
+.wrapper{
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content: space-around;
+}
+.game-menu {
+    width: 20%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    
+    justify-content: space-around;
+
+    align-items:  center;
+    
+}
+
+.game-menu input{
+    font: Arial;
+    font-size: 40px;
+    width: 256px;
+    height: 100px;
+
+    
+}
+
+.high-score{
+    color: white;
+
+    width: 20%;
+    height: 100%;
+}
+
 #score {
     float: left;
     text-align: left;
