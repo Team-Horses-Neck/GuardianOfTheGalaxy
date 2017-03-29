@@ -18,7 +18,7 @@ const BOSS_PROJECTILE_SPEED = 3; // px/frame
 const BONUS_SPEED = 1; // px/frame
 const PROJECTILE_WIDTH = 11;
 // Enemies
-const ENEMY_SPEED = 0.5; // px/frame
+var ENEMY_SPEED = 0.5; // px/frame
 const ENEMY_ROWS = 4;
 const ENEMIES_PER_ROW = 5;
 const ENEMY_DOWN = 40; // px How much the enemies to go down on every iteration
