@@ -69,7 +69,7 @@ class Boss extends MovableUnit {
                 detail: {
                     firedBy: unitTypes.boss,
                     x: this.x + offsetX,
-                    y: this.y
+                    y: this.y + this.height
                 }
             });
             window.dispatchEvent(fireEvent);
