@@ -25,6 +25,23 @@ function loadSprite(url) {
     return img;
 }
 
+function resizeScoreBar() {
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
+    const resizeValue = calculateInitialResize();
+
+    const svg = document.getElementById('scoreBar');
+    svg.width = canvas.width;
+    svg.height = canvas.height;
+    svg.setAttribute('x', canvas.width * SIDE_FIELDS_PERCENT);
+
+    const gElements = document.getElementsByClassName('resize');
+
+    for (var i = 0; i < gElements.length; i += 1) {
+        gElements[i].setAttribute('transform', 'scale(' + resizeValue + ')');
+    }
+}
+
 //Define all game sprites here
 const sprites = {
     guardian: loadSprite('./images/guardian-small.png'),
@@ -60,6 +77,8 @@ window.addEventListener('load', function () {
     canvas.width = CANVAS_BASE_WIDTH * resizeValue;
     canvas.height = CANVAS_BASE_HEIGHT * resizeValue;
     const ctx = canvas.getContext('2d');
+
+    resizeScoreBar();
 
     ctx.clearAll = function () {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
