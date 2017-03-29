@@ -58,7 +58,7 @@
 //var templateHtml = document.getElementById(template).innerHTML;
 let template =
     '<h1>High Score</h1>'+
-    '<ul>'+
+    '<ol>'+
         '{{#each player}}'+
         '<li>'+
             '<span class="name">'+
@@ -69,7 +69,7 @@ let template =
             '</span>'+
         '</li>'+
         '{{/each}}'+
-    '</ul>';
+    '</ol>';
 
 let highScore = {
     player: [

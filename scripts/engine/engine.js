@@ -14,6 +14,7 @@ class Engine {
 
         this._isPause = false;
         this._isGameOver = false;
+        this._waveCount = 2;
 
         this.initGame();
     }
@@ -61,7 +62,7 @@ class Engine {
         //create wall
         this.createWall(this._ctx, this._sprites);
 
-        this.createBoss();
+        //this.createBoss();
         this.createEnemyArmy();
 
         //sets the initial field
@@ -201,11 +202,11 @@ class Engine {
                     if (engine.player.lives < 1) {
                         let name = prompt("Please enter your name");
                         if (name === null) {
-                            name='Anonymous';
+                            name = 'Anonymous';
                         }
                         let currentPlayer = {
-                            name:name,
-                            score:engine.player.totalScore
+                            name: name,
+                            score: engine.player.totalScore
                         };
                         highScore.player.push(currentPlayer);
                         PrintScore();
@@ -242,13 +243,13 @@ class Engine {
         });
 
         //for small enemy and boss collison with player 
-        engine._enemies.forEach(function(enemy) {
-            if (enemy.hasCollidedWith(engine.player)){
+        engine._enemies.forEach(function (enemy) {
+            if (enemy.hasCollidedWith(engine.player)) {
                 engine._gameOn = false;
             }
         });
 
-        
+
         if (wallsToErase.length > 0) {
             const wallsToEraseEvent = new CustomEvent('wallsToErase', {
                 detail: wallsToErase
@@ -281,12 +282,19 @@ class Engine {
         ctx.clearAll();
         engine._space.draw();
 
-        //Possible fixes
-        if (this._enemies.length === 0) {
+
+        if (this._enemies.length === 0 && engine._waveCount > 0) {
             ENEMY_SPEED += 0.5;
             engine.createEnemyArmy();
-            engine.createBoss();
+            engine._waveCount -= 1;
+
+        } else {
+            if (this._enemies.length === 0 && engine._waveCount === 0) {
+                engine.createBoss();
+                engine._waveCount = -1;
+            }
         }
+
         engine._walls.forEach(wall => wall.draw());
         engine.player.draw();
         engine._projectiles.forEach(u => u.draw());
