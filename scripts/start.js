@@ -88,16 +88,16 @@ function menu(ctx, engine) {
     const newGameButton = document.getElementById('new-game-button');
     const pauseButton = document.getElementById('pause-game-button');
 
-    newGameButton.addEventListener('click', function () {
+    // newGameButton.addEventListener('click', function () {
         
-        ctx.clearAll();
+    //     ctx.clearAll();
 
-        //const background = new SpaceBackground(ctx, sprites.spaceStatic, sprites.spaceMoving);
-        engine.initGame();
+    //     //const background = new SpaceBackground(ctx, sprites.spaceStatic, sprites.spaceMoving);
+    //     engine.initGame();
 
-         engine.gameLoop(engine, ctx);
-    });
-
+    //      engine.gameLoop(engine, ctx);
+    // });
+    engine.gameLoop(engine, ctx);
 
     pauseButton.addEventListener('click', function () {
         engine.pauseGame(ctx);
