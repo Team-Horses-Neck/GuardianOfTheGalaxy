@@ -224,8 +224,14 @@ class Engine {
             }
         });
 
-        //for small enemy with player collison
+        //for small enemy and boss collison with player 
+        engine._enemies.forEach(function(enemy) {
+            if (enemy.hasCollidedWith(engine.player)){
+                engine._gameOn = false;
+            }
+        });
 
+        
         if (wallsToErase.length > 0) {
             const wallsToEraseEvent = new CustomEvent('wallsToErase', {
                 detail: wallsToErase
