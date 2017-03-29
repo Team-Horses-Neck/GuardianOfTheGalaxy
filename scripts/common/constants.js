@@ -1,3 +1,8 @@
+const CANVAS_BASE_WIDTH = 960;
+const CANVAS_BASE_HEIGHT = 710;
+const SIDE_FIELDS_PERCENT = 15;
+const DOWN_FIELD_PERCENT = 10;
+
 // Player
 const PLAYER_SPEED = 4; // px/frame
 const PLAYER_START_LIFE = 3;

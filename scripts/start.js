@@ -1,6 +1,27 @@
+function calculateInitialResize() {
+
+    const currentWidth = window.innerWidth;
+    const currentHeight = window.innerHeight;
+
+    const sideFieldCorrection = currentWidth * SIDE_FIELDS_PERCENT * 2 / 100;
+    const downFieldCorrection = currentHeight * DOWN_FIELD_PERCENT / 100;
+
+    const indexWidth = (currentWidth - sideFieldCorrection) / CANVAS_BASE_WIDTH;
+    const indexHeight = (currentHeight - downFieldCorrection) / CANVAS_BASE_HEIGHT;
+
+    var result = indexWidth < indexHeight ? indexWidth : indexHeight;
+
+    return result;
+}
+
 function loadSprite(url) {
     const img = new Image();
     img.src = url;
+    const resizeValue = calculateInitialResize();
+    img.onload = function () {
+        img.width *= resizeValue;
+        img.height *= resizeValue;
+    }
     return img;
 }
 
@@ -29,14 +50,18 @@ const sprites = {
     projectileUp: loadSprite('./images/shell-small-up.png'),
     bonusHealth: loadSprite('./images/health-bonus.png'),
     bonusPoint: loadSprite('./images/point-bonus.png')
-
 };
 
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     const canvas = document.getElementById('game-canvas');
+
+    const resizeValue = calculateInitialResize();
+
+    canvas.width = CANVAS_BASE_WIDTH * resizeValue;
+    canvas.height = CANVAS_BASE_HEIGHT * resizeValue;
     const ctx = canvas.getContext('2d');
 
-    ctx.clearAll = function() {
+    ctx.clearAll = function () {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
 
