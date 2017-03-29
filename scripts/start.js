@@ -84,7 +84,8 @@ window.addEventListener('load', function () {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
 
-    const engine = new Engine(ctx, sprites);
+    const background = new SpaceBackground(ctx, sprites.spaceStatic, sprites.spaceMoving);
+    const engine = new Engine(ctx, sprites, background);
 
     // Keyboard events
     window.addEventListener('keydown', (e) => engine._userInput.onKeydown(e), false);
@@ -97,5 +98,35 @@ window.addEventListener('load', function () {
 
     window.addEventListener('wallsToErase', (e) => engine.onWallstoErase(e));
 
-    engine.gameLoop(engine, ctx);
+    menu(ctx, engine);
+
 });
+
+
+function menu(ctx, engine) {
+    const newGameButton = document.getElementById('new-game-button');
+    const pauseButton = document.getElementById('pause-game-button');
+
+    // newGameButton.addEventListener('click', function () {
+        
+    //     ctx.clearAll();
+
+    //     //const background = new SpaceBackground(ctx, sprites.spaceStatic, sprites.spaceMoving);
+    //     engine.initGame();
+
+    //      engine.gameLoop(engine, ctx);
+    // });
+    engine.gameLoop(engine, ctx);
+
+    pauseButton.addEventListener('click', function () {
+        engine.pauseGame(ctx);
+        if (pauseButton.value == 'Pause') {
+            pauseButton.value = 'Resume';
+        }
+        else {
+            pauseButton.value = 'Pause';
+        }
+    });
+
+   
+}

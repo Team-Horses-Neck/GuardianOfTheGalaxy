@@ -1,7 +1,7 @@
 class Engine {
-    constructor(ctx, sprites) {
+    constructor(ctx, sprites, background) {
         this._userInput = new UserInput();
-        this._space = new SpaceBackground(ctx, sprites.spaceStatic, sprites.spaceMoving);
+        this._space = background;
 
         this._ctx = ctx;
         this._sprites = sprites;
@@ -12,7 +12,8 @@ class Engine {
         this._walls = [];
         this._bonuses = [];
 
-        this._gameOn = true;
+        this._isPause = false;
+        this._isGameOver = false;
 
         this.initGame();
     }
@@ -50,6 +51,12 @@ class Engine {
         const x = this._ctx.canvas.width / 2 - guardianImage.width / 2;
         const y = this._ctx.canvas.height - guardianImage.height;
         this.player = new Player(x, y, this._ctx, guardianImage);
+
+        this._enemies = [];
+        this._projectiles = [];
+        this._walls = [];
+        this._bonuses = [];
+
 
         //create wall
         this.createWall(this._ctx, this._sprites);
@@ -127,7 +134,7 @@ class Engine {
         if (this.player.totalScore >= 0 && this.player.totalScore >= +(localStorage.getItem('highScore'))) {
             localStorage.setItem('highScore', this.player.totalScore.toString());
         }
-        
+
         const highestScore = document.getElementById('highestScore');
         highestScore.innerHTML = localStorage.getItem('highScore');
         //localStorage.clear(); in case of clearing
@@ -155,9 +162,9 @@ class Engine {
         const enemiesToErase = [];
         const wallsToErase = [];
 
-        engine._projectiles.forEach(function(projectile) {
+        engine._projectiles.forEach(function (projectile) {
 
-            engine._walls.forEach(function(wall) {
+            engine._walls.forEach(function (wall) {
                 if (projectile.hasCollidedWith(wall)) {
                     projectilesToErase.push(projectile);
 
@@ -170,7 +177,7 @@ class Engine {
 
             const projectileGoingUp = projectile.direction < 0;
             if (projectileGoingUp) {
-                engine._enemies.forEach(function(enemy) {
+                engine._enemies.forEach(function (enemy) {
                     if (projectile.hasCollidedWith(enemy)) {
                         engine.player.totalScore += enemy.points;
 
@@ -192,7 +199,17 @@ class Engine {
                     projectilesToErase.push(projectile);
                     engine.player.lives -= 1;
                     if (engine.player.lives < 1) {
-                        engine._gameOn = false;
+                        let name = prompt("Please enter your name");
+                        if (name === null) {
+                            name='Anonymous';
+                        }
+                        let currentPlayer = {
+                            name:name,
+                            score:engine.player.totalScore
+                        };
+                        highScore.player.push(currentPlayer);
+                        PrintScore();
+                        engine._isGameOver = true;
                     }
                 }
             }
@@ -205,7 +222,7 @@ class Engine {
 
 
         const bonusesToErase = [];
-        this._bonuses.forEach(function(bonus) {
+        this._bonuses.forEach(function (bonus) {
             if (bonus.hasCollidedWith(engine.player)) {
                 if (bonus.type === 'health') {
                     engine.player.lives += 1;
@@ -278,15 +295,16 @@ class Engine {
 
         engine.printPlayerData();
 
-        if (engine._gameOn) {
-            requestAnimationFrame(function() {
-                engine.gameLoop(engine, ctx);
-            });
-        } else {
-            ctx.fillStyle = 'orangered';
-            ctx.font = "40px Arial";
-            ctx.fillText("Game Over", ctx.canvas.width / 2 - 100, ctx.canvas.height / 2);
-            ctx.fillText("Restart", ctx.canvas.width / 2 - 65, ctx.canvas.height / 2 + 50);
+        if (!engine._isPause) {
+            if (!engine._isGameOver) {
+                requestAnimationFrame(function () {
+                    engine.gameLoop(engine, ctx);
+                });
+            } else {
+                ctx.fillStyle = 'orangered';
+                ctx.font = "40px Arial";
+                ctx.fillText("Game Over", ctx.canvas.width / 2 - 100, ctx.canvas.height / 2);
+            }
         }
 
     }
@@ -334,5 +352,14 @@ class Engine {
         const boss = new Boss(startX, startY, this._ctx, this._sprites.boss, 2);
         this._enemies.push(boss);
     }
-    
+
+    pauseGame(ctx) {
+
+        this._isPause = !this._isPause;
+
+        if (!this._isPause) {
+            this.gameLoop(this, ctx);
+        }
+
+    }
 }
