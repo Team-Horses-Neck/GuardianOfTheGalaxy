@@ -163,9 +163,9 @@ class Engine {
         const enemiesToErase = [];
         const wallsToErase = [];
 
-        engine._projectiles.forEach(function (projectile) {
+        engine._projectiles.forEach(function(projectile) {
 
-            engine._walls.forEach(function (wall) {
+            engine._walls.forEach(function(wall) {
                 if (projectile.hasCollidedWith(wall)) {
                     projectilesToErase.push(projectile);
 
@@ -178,7 +178,7 @@ class Engine {
 
             const projectileGoingUp = projectile.direction < 0;
             if (projectileGoingUp) {
-                engine._enemies.forEach(function (enemy) {
+                engine._enemies.forEach(function(enemy) {
                     if (projectile.hasCollidedWith(enemy)) {
                         engine.player.totalScore += enemy.points;
 
@@ -200,16 +200,6 @@ class Engine {
                     projectilesToErase.push(projectile);
                     engine.player.lives -= 1;
                     if (engine.player.lives < 1) {
-                        let name = prompt("Please enter your name");
-                        if (name === null) {
-                            name = 'Anonymous';
-                        }
-                        let currentPlayer = {
-                            name: name,
-                            score: engine.player.totalScore
-                        };
-                        highScore.player.push(currentPlayer);
-                        PrintScore();
                         engine._isGameOver = true;
                     }
                 }
@@ -223,7 +213,7 @@ class Engine {
 
 
         const bonusesToErase = [];
-        this._bonuses.forEach(function (bonus) {
+        this._bonuses.forEach(function(bonus) {
             if (bonus.hasCollidedWith(engine.player)) {
                 if (bonus.type === 'health') {
                     engine.player.lives += 1;
@@ -242,8 +232,8 @@ class Engine {
             }
         });
 
-        //for small enemy and boss collison with player 
-        engine._enemies.forEach(function (enemy) {
+        //for small enemy and boss collison with player
+        engine._enemies.forEach(function(enemy) {
             if (enemy.hasCollidedWith(engine.player)) {
                 engine._gameOn = false;
             }
@@ -283,16 +273,18 @@ class Engine {
         engine._space.draw();
 
 
-        if (this._enemies.length === 0 && engine._waveCount > 0) {
-            ENEMY_SPEED += 0.5;
-            engine.createEnemyArmy();
-            engine._waveCount -= 1;
-
-        } else {
-            if (this._enemies.length === 0 && engine._waveCount === 0) {
+        if (this._enemies.length === 0) {
+            if (engine._waveCount > 0) {
+                ENEMY_SPEED += 0.5;
+                engine.createEnemyArmy();
+                engine._waveCount -= 1;
+            } else if (engine._waveCount === 0) {
                 engine.createBoss();
                 engine._waveCount = -1;
+            } else {
+                engine._waveCount = -2;
             }
+
         }
 
         engine._walls.forEach(wall => wall.draw());
@@ -305,13 +297,23 @@ class Engine {
 
         if (!engine._isPause) {
             if (!engine._isGameOver) {
-                requestAnimationFrame(function () {
-                    engine.gameLoop(engine, ctx);
-                });
+                if (engine._waveCount !== -2) {
+                    requestAnimationFrame(function() {
+                        engine.gameLoop(engine, ctx);
+                    });
+                } else {
+                    ctx.fillStyle = 'orangered';
+                    ctx.font = "40px Arial";
+                    ctx.fillText("YOU WIN", ctx.canvas.width / 2 - 100, ctx.canvas.height / 2);
+                    logPlayerData(engine);
+                    PrintScore();
+                }
             } else {
                 ctx.fillStyle = 'orangered';
                 ctx.font = "40px Arial";
-                ctx.fillText("Game Over", ctx.canvas.width / 2 - 100, ctx.canvas.height / 2);
+                ctx.fillText("YOU LOSE", ctx.canvas.width / 2 - 100, ctx.canvas.height / 2);
+                logPlayerData(engine);
+                PrintScore();
             }
         }
 
